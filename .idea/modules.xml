@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ChronicleMap/ChronicleMap.iml" filepath="$PROJECT_DIR$/ChronicleMap/ChronicleMap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ChronicleEngine/scalecube-chronicle-engine.iml" filepath="$PROJECT_DIR$/ChronicleEngine/scalecube-chronicle-engine.iml" />
       <module fileurl="file://$PROJECT_DIR$/scalecube-performance-storage-parent.iml" filepath="$PROJECT_DIR$/scalecube-performance-storage-parent.iml" />
     </modules>
   </component>

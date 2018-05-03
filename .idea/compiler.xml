@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="ChronicleMap" target="1.8" />
+      <module name="scalecube-chronicle-engine" target="1.8" />
       <module name="scalecube-performance-storage-parent" target="1.8" />
     </bytecodeTargetLevel>
   </component>

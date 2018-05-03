@@ -10,12 +10,13 @@
     <version>2.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>scalecube-chronicle-map</artifactId>
+  <artifactId>scalecube-chronicle-engine</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>net.openhft</groupId>
-      <artifactId>chronicle-map</artifactId>
+      <artifactId>chronicle-engine</artifactId>
+      <version>1.13.27</version>
     </dependency>
   </dependencies>
 
