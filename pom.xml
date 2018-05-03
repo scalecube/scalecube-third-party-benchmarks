@@ -82,6 +82,13 @@
   </modules>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/net.openhft/chronicle-map -->
+    <dependency>
+      <groupId>net.openhft</groupId>
+      <artifactId>chronicle-map</artifactId>
+      <version>3.14.5</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/io.projectreactor/reactor-core -->
     <dependency>
       <groupId>io.projectreactor</groupId>
