@@ -7,6 +7,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
@@ -16,16 +17,16 @@ public class Order implements Externalizable {
 
     private static final AtomicInteger idCnt = new AtomicInteger();
 
-    private final int id;
-    private final String userId;
-    private final String instrumentInstanceId;
-    private final int quantity;
-    private final String orderType;
-    private final BigDecimal price;
-    private final LocalDateTime clientTimestamp;
-    private final LocalDateTime serverTimestamp;
-    private final String userIpAddress;
-    private final Status status;
+    private int id;
+    private String userId;
+    private String instrumentInstanceId;
+    private int quantity;
+    private String orderType;
+    private BigDecimal price;
+    private LocalDateTime clientTimestamp;
+    private LocalDateTime serverTimestamp;
+    private String userIpAddress;
+    private Status status;
 
 
     public byte[] serialized() throws IOException {
@@ -52,7 +53,16 @@ public class Order implements Externalizable {
 
     @Override
     public void readExternal(ObjectInput in) throws IOException {
-        // todo
+        id = in.readInt();
+        userId = in.readUTF();
+        instrumentInstanceId = in.readUTF();
+        quantity = in.readInt();
+        orderType = in.readUTF();
+        price = BigDecimal.valueOf(in.readInt());
+        clientTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(in.readLong()), ZoneOffset.UTC);
+        serverTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(in.readLong()), ZoneOffset.UTC);
+        userIpAddress = in.readUTF();
+        status = Status.valueOf(in.readUTF());
     }
 
     public Order() {
