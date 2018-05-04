@@ -9,24 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>scalecube-performance-storage-common</artifactId>
+    <artifactId>scalecube-lmdb-example</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
+            <groupId>org.lmdbjava</groupId>
+            <artifactId>lmdbjava</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
+            <groupId>io.scalecube</groupId>
+            <artifactId>scalecube-performance-storage-common</artifactId>
+            <version>2.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

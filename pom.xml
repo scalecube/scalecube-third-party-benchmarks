@@ -9,10 +9,6 @@
   <packaging>pom</packaging>
 
   <name>ScaleCube</name>
-  <description>
-    ScaleCube is a lightweight decentralized cluster membership, failure detection, messaging and
-    gossip protocol library for the Java VM.
-  </description>
   <inceptionYear>2015</inceptionYear>
   <url>http://scalecube.io</url>
 
@@ -75,6 +71,9 @@
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.3</nexus-staging-maven-plugin.version>
     <maven-release-plugin.version>2.5</maven-release-plugin.version>
+    <lmdbjava.version>0.6.1</lmdbjava.version>
+    <junit.version>4.12</junit.version>
+    <metrics.version>3.1.2</metrics.version>
   </properties>
 
   <modules>
@@ -82,9 +81,11 @@
     <module>ChronicleMap2.X.X</module>
     <module>ChronicleEngine</module>
     <module>common</module>
+    <module>scalecube-lmdb</module>
   </modules>
 
   <dependencyManagement>
+
     <!-- Chronicle -->
     <dependencies>
       <dependency>
@@ -102,6 +103,22 @@
         <artifactId>chronicle-engine</artifactId>
         <version>1.13.27</version>
       </dependency>
+
+      <!-- Dropwizard -->
+      <dependency>
+        <groupId>io.dropwizard.metrics</groupId>
+        <artifactId>metrics-core</artifactId>
+        <version>${metrics.version}</version>
+      </dependency>
+
+
+      <!-- LMDB -->
+      <dependency>
+        <groupId>org.lmdbjava</groupId>
+        <artifactId>lmdbjava</artifactId>
+        <version>${lmdbjava.version}</version>
+      </dependency>
+
       <!-- Other -->
       <dependency>
         <groupId>io.projectreactor</groupId>
@@ -148,6 +165,11 @@
         <groupId>io.protostuff</groupId>
         <artifactId>protostuff-collectionschema</artifactId>
         <version>${protostuff.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
