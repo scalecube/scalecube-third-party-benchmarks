@@ -1,9 +1,11 @@
 package etc;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -24,6 +26,15 @@ public class Order implements Externalizable {
     private final LocalDateTime serverTimestamp;
     private final String userIpAddress;
     private final Status status;
+
+
+    public byte[] serialized() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        this.writeExternal(oos);
+        oos.flush();
+        return baos.toByteArray();
+    }
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
