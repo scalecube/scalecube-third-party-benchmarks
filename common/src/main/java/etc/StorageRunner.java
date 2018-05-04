@@ -4,17 +4,14 @@ import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 
-import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
 
 public class StorageRunner {
 
-    public static final int RECORDS_CNT = 2_000_000;
+    public static final int RECORDS_CNT = 1_000_000;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         MetricRegistry registry = new MetricRegistry();
         ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).convertDurationsTo(TimeUnit.NANOSECONDS).build();
         reporter.start(3, TimeUnit.SECONDS);
@@ -28,21 +25,8 @@ public class StorageRunner {
         writer.populate();
         writer.write();
 
-        //TODO: move to StorageReader
-        ThreadLocalRandom rnd = ThreadLocalRandom.current();
-        IntStream.rangeClosed(1, RECORDS_CNT).forEach(i -> {
-                int idx = rnd.nextInt(1, RECORDS_CNT);
-                Timer.Context readTime = timeFullRead.time();
-                try {
-                    storage.read(idx);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                readTime.stop();
-            }
-        );
-
-        //        Thread.currentThread().join();
+        StorageReader reader = new StorageReader(RECORDS_CNT, storage, timeFullRead);
+        reader.read();
     }
 
     private static Storage<Integer, Order> storage() {
