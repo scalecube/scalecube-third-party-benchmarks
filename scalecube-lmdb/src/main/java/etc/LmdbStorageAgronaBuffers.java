@@ -8,22 +8,21 @@ import org.lmdbjava.Env;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 import static java.nio.ByteBuffer.allocateDirect;
 import static org.lmdbjava.DbiFlags.MDB_CREATE;
 import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
 
-public class LmdbStorage implements Storage<Integer, Order> {
+public class LmdbStorageAgronaBuffers implements Storage<Integer, Order> {
 
-    public static final String DB_NAME = "LmdbStorage";
+    public static final String DB_NAME = "LmdbStorageAgronaBuffers";
     private final Env<DirectBuffer> env;
     private final Dbi<DirectBuffer> db;
 
-    public LmdbStorage() {
+    public LmdbStorageAgronaBuffers() {
         File path = new File(".");
         env = Env.create(PROXY_DB)
-                .setMapSize(10_485_760)
+                .setMapSize(10_485_760_000l)
                 .setMaxDbs(1)
                 .open(path);
 
@@ -32,12 +31,11 @@ public class LmdbStorage implements Storage<Integer, Order> {
 
     @Override
     public void write(Integer k, Order v) throws IOException {
-
-        final ByteBuffer keyBb = allocateDirect(env.getMaxKeySize());
-        final MutableDirectBuffer key = new UnsafeBuffer(keyBb);
+        final MutableDirectBuffer key = new UnsafeBuffer(allocateDirect(4));
         key.putInt(0, v.getId());
-        final MutableDirectBuffer val = new UnsafeBuffer(allocateDirect(1000));
-        val.putBytes(0, v.serialized());
+        byte[] valBytes = v.serialized();
+        final MutableDirectBuffer val = new UnsafeBuffer(allocateDirect(valBytes.length));
+        val.putBytes(0, valBytes);
         db.put(key, val);
     }
 
