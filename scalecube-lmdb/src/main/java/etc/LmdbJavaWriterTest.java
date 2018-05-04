@@ -13,11 +13,11 @@ public class LmdbJavaWriterTest {
     public static void main(String[] args) throws IOException {
         MetricRegistry registry = new MetricRegistry();
 
-        Storage<Integer, Order> storage = new LmdbStorage();
+        Storage<Integer, Order> storage = new LmdbStorageAgronaBuffers();
         StorageWriter storageWriter = new StorageWriter(n, storage, registry.timer("full-writes"));
 
         // Pre-populate database
-        storageWriter.populate();
+//        storageWriter.populate();
 
         // Start Reporter
         ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).convertDurationsTo(TimeUnit.NANOSECONDS).build();
