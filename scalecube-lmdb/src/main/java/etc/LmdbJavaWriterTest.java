@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LmdbJavaWriterTest {
 
-    public static final int n = 2_000_000;
+    private static final int n = (int) 1e+6;
 
     public static void main(String[] args) throws IOException {
         MetricRegistry registry = new MetricRegistry();
