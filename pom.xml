@@ -78,10 +78,9 @@
 
   <modules>
     <module>ChronicleMap3X.X.X</module>
-    <module>ChronicleMap2.X.X</module>
-    <module>ChronicleEngine</module>
     <module>common</module>
     <module>scalecube-lmdb</module>
+    <module>scalecube-RocksDb</module>
   </modules>
 
   <dependencyManagement>

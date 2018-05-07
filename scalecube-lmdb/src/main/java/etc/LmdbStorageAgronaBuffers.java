@@ -25,8 +25,7 @@ public class LmdbStorageAgronaBuffers implements Storage<Integer, Order> {
     public LmdbStorageAgronaBuffers() {
         File path = new File(".");
         env = Env.create(PROXY_DB)
-//                .setMapSize(10_485_760_000l)
-                .setMapSize(500_000_000)
+                .setMapSize(10_485_760_000L)
                 .setMaxDbs(1)
                 .open(path, EnvFlags.MDB_NOSYNC, EnvFlags.MDB_WRITEMAP);
 
