@@ -13,7 +13,7 @@ public class MVStoreStorage implements Storage<Integer, Order> {
     private final MVMap<Integer, Order> map;
     private final MVStore s;
 
-    public MVStoreStorage() {
+    MVStoreStorage() {
         File path = new File(".");
         s = new MVStore.Builder()
                 .fileName(new File(path, "mvstore.db").getAbsolutePath())
