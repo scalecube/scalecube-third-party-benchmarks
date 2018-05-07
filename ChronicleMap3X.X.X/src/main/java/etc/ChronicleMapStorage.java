@@ -17,7 +17,8 @@ public class ChronicleMapStorage implements Storage<Integer, Order> {
         .name("storage-db")
         .averageValue(new Order())
         .entries(entriesCount)
-        .createPersistedTo(path);
+        .maxBloatFactor(50)
+        .createOrRecoverPersistedTo(path, true);
   }
 
   @Override
