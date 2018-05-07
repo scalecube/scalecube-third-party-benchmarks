@@ -49,8 +49,9 @@ public class StorageWriterTest implements Runnable {
     storageWriter.populate();
     System.out.println("###### Finished to populate db");
 
-    ConsoleReporter reporter = ConsoleReporter.forRegistry(registry).convertDurationsTo(TimeUnit.NANOSECONDS).build();
-    reporter.start(3, TimeUnit.SECONDS);
+    ConsoleReporter reporter =
+        ConsoleReporter.forRegistry(registry).convertDurationsTo(TimeUnit.NANOSECONDS).build();
+    reporter.start(1, TimeUnit.SECONDS);
 
     storageWriter.write();
 
