@@ -1,10 +1,13 @@
-package io.scalecube.storages.common;
+package io.scalecube.storages.lmdb;
 
 import com.codahale.metrics.MetricRegistry;
+import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.Storage;
+import io.scalecube.storages.common.StorageWriterTest;
+
+import static io.scalecube.storages.common.Constants.N;
 
 public class LmdbJavaWriterTest {
-
-  private static final int n = (int) 1e+6;
 
   private static final int nThreads = Runtime.getRuntime().availableProcessors();
 
@@ -12,7 +15,7 @@ public class LmdbJavaWriterTest {
     MetricRegistry registry = new MetricRegistry();
     Storage<Integer, Order> storage = new LmdbStorageAgronaBuffers();
     try {
-      new StorageWriterTest(nThreads, n, registry, storage).test();
+      new StorageWriterTest(nThreads, N, registry, storage).test();
     } finally {
       storage.close();
     }

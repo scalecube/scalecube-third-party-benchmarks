@@ -1,5 +1,7 @@
-package io.scalecube.storages.common;
+package io.scalecube.storages.lmdb;
 
+import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.Storage;
 import org.agrona.DirectBuffer;
 import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;

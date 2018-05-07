@@ -1,4 +1,7 @@
-package io.scalecube.storages.common;
+package io.scalecube.storages.rocksdb;
+
+import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.Storage;
 
 import java.io.IOException;
 

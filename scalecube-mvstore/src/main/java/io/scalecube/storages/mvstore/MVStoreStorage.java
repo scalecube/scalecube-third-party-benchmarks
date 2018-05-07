@@ -7,7 +7,6 @@ import org.h2.mvstore.MVStore;
 import org.h2.mvstore.OffHeapStore;
 
 import java.io.File;
-import java.io.IOException;
 
 public class MVStoreStorage implements Storage<Integer, Order> {
 
@@ -24,12 +23,12 @@ public class MVStoreStorage implements Storage<Integer, Order> {
     }
 
     @Override
-    public void write(Integer integer, Order order) throws IOException {
+    public void write(Integer integer, Order order) {
         map.put(integer, order);
     }
 
     @Override
-    public Order read(Integer integer) throws IOException {
+    public Order read(Integer integer) {
         return map.get(integer);
     }
 

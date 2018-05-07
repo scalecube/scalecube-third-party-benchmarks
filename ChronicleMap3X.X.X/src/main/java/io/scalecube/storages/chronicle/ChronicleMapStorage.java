@@ -1,8 +1,10 @@
-package io.scalecube.storages.common;
+package io.scalecube.storages.chronicle;
 
 import java.io.File;
 import java.io.IOException;
 
+import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.Storage;
 import net.openhft.chronicle.map.ChronicleMap;
 
 public class ChronicleMapStorage implements Storage<Integer, Order> {
