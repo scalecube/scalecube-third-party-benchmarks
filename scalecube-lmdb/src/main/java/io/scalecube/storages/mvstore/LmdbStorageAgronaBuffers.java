@@ -1,4 +1,4 @@
-package etc;
+package io.scalecube.storages.mvstore;
 
 import org.agrona.DirectBuffer;
 import org.agrona.MutableDirectBuffer;

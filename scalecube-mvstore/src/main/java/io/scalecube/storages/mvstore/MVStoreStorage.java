@@ -1,23 +1,24 @@
-package etc;
+package io.scalecube.storages.mvstore;
 
 import org.h2.mvstore.MVMap;
 import org.h2.mvstore.MVStore;
+import org.h2.mvstore.OffHeapStore;
 
 import java.io.File;
 import java.io.IOException;
 
-public class MvStorage implements Storage<Integer, Order> {
+public class MVStoreStorage implements Storage<Integer, Order> {
 
     private final MVMap<Integer, Order> map;
     private final MVStore s;
 
-    public MvStorage() {
+    public MVStoreStorage() {
         File path = new File(".");
         s = new MVStore.Builder()
                 .fileName(new File(path, "mvstore.db").getAbsolutePath())
-                .autoCommitDisabled()
+                .fileStore(new OffHeapStore())
                 .open();
-        map = s.openMap("MvStorage");
+        map = s.openMap("MVStoreStorage");
     }
 
     @Override

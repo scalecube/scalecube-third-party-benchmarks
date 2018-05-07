@@ -1,4 +1,4 @@
-package etc;
+package io.scalecube.storages.mvstore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;

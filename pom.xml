@@ -119,6 +119,7 @@
         <artifactId>agrona</artifactId>
         <version>${agrona.version}</version>
       </dependency>
+
       <!-- LMDB -->
       <dependency>
         <groupId>org.lmdbjava</groupId>
