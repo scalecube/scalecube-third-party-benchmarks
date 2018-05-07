@@ -1,6 +1,9 @@
 package etc;
 
 import com.codahale.metrics.MetricRegistry;
+import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.Storage;
+import io.scalecube.storages.common.StorageWriterTest;
 
 public class RocksDBWriterTest {
 

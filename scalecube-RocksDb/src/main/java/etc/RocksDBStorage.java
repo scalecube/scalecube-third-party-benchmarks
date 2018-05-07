@@ -1,5 +1,7 @@
 package etc;
 
+import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.Storage;
 import org.rocksdb.Options;
 import org.rocksdb.RocksDB;
 import org.rocksdb.RocksDBException;

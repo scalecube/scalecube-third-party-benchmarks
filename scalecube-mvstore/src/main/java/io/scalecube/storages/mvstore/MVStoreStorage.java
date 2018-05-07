@@ -1,5 +1,7 @@
 package io.scalecube.storages.mvstore;
 
+import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.Storage;
 import org.h2.mvstore.MVMap;
 import org.h2.mvstore.MVStore;
 import org.h2.mvstore.OffHeapStore;
