@@ -16,6 +16,12 @@ import static java.nio.ByteBuffer.allocateDirect;
 import static org.lmdbjava.DbiFlags.MDB_CREATE;
 import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
 
+/**
+ * LMDB storage connector with the following configuration:<p/>
+ * 1. Uses Agrona buffers.
+ * 2. Don't fsync after commit.
+ * 3. Use writable mmap.
+ */
 public class LmdbStorageAgronaBuffers implements Storage<Integer, Order> {
 
     public static final String DB_NAME = "LmdbStorageAgronaBuffers";
@@ -25,8 +31,7 @@ public class LmdbStorageAgronaBuffers implements Storage<Integer, Order> {
     public LmdbStorageAgronaBuffers() {
         File path = new File(".");
         env = Env.create(PROXY_DB)
-//                .setMapSize(10_485_760_000l)
-                .setMapSize(500_000_000)
+                .setMapSize(5000_000_000l)
                 .setMaxDbs(1)
                 .open(path, EnvFlags.MDB_NOSYNC, EnvFlags.MDB_WRITEMAP);
 
