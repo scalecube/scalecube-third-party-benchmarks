@@ -55,7 +55,6 @@ public class LmdbStorageAgronaBuffers implements Storage<Integer, Order> {
             c.close();
             txn.commit();
         }
-
     }
 
     @Override

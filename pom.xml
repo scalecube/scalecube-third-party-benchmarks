@@ -74,6 +74,8 @@
     <lmdbjava.version>0.6.1</lmdbjava.version>
     <junit.version>4.12</junit.version>
     <metrics.version>3.1.2</metrics.version>
+    <h2-mvstore.version>1.4.197</h2-mvstore.version>
+    <agrona.version>0.9.16</agrona.version>
   </properties>
 
   <modules>
@@ -81,10 +83,10 @@
     <module>common</module>
     <module>scalecube-lmdb</module>
     <module>scalecube-RocksDb</module>
+    <module>scalecube-mvstore</module>
   </modules>
 
   <dependencyManagement>
-
     <!-- Chronicle -->
     <dependencies>
       <dependency>
@@ -111,11 +113,24 @@
       </dependency>
 
 
+      <!-- Agrona buffers -->
+      <dependency>
+        <groupId>org.agrona</groupId>
+        <artifactId>agrona</artifactId>
+        <version>${agrona.version}</version>
+      </dependency>
       <!-- LMDB -->
       <dependency>
         <groupId>org.lmdbjava</groupId>
         <artifactId>lmdbjava</artifactId>
         <version>${lmdbjava.version}</version>
+      </dependency>
+
+      <!-- MV store (h2) -->
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2-mvstore</artifactId>
+        <version>${h2-mvstore.version}</version>
       </dependency>
 
       <!-- Other -->

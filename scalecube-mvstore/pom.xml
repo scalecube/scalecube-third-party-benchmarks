@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>scalecube-lmdb-example</artifactId>
+    <artifactId>scalecube-mvstore</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.lmdbjava</groupId>
-            <artifactId>lmdbjava</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2-mvstore</artifactId>
         </dependency>
         <dependency>
             <groupId>io.scalecube</groupId>
