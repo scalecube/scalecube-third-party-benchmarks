@@ -47,7 +47,7 @@ public class LmdbStorageAgronaBuffers implements Storage<Integer, Order> {
             final MutableDirectBuffer key = new UnsafeBuffer(allocateDirect(4));
             key.putInt(0, v.getId());
 
-            byte[] valBytes = v.serialized();
+            byte[] valBytes = v.toBytes();
             final MutableDirectBuffer val = new UnsafeBuffer(allocateDirect(valBytes.length));
             val.putBytes(0, valBytes);
             c.put(key, val);

@@ -28,10 +28,10 @@ public class Order implements Externalizable {
   private String userIpAddress;
 
 
-  public byte[] serialized() throws IOException {
+  public byte[] toBytes() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ObjectOutputStream oos = new ObjectOutputStream(baos);
-    this.writeExternal(oos);
+    writeExternal(oos);
     oos.flush();
     return baos.toByteArray();
   }
