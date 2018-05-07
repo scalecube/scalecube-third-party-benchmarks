@@ -24,21 +24,24 @@ public class StorageWriterTest implements Runnable {
     this.n = n;
     this.registry = registry;
     this.storage = storage;
-    this.executorService = Executors.newFixedThreadPool(2);
+    this.executorService = Executors.newFixedThreadPool(nThreads);
   }
 
   public void test() throws Exception {
-    List<Future> futures = new ArrayList<>();
-    IntStream.rangeClosed(1, nThreads).forEach(i -> futures.add(executorService.submit(this)));
-    futures.forEach(future -> {
-      try {
-        future.get();
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    });
-    executorService.shutdown();
-    executorService.awaitTermination(1, TimeUnit.SECONDS);
+    try {
+      List<Future> futures = new ArrayList<>();
+      IntStream.rangeClosed(1, nThreads).forEach(i -> futures.add(executorService.submit(this)));
+      futures.forEach(future -> {
+        try {
+          future.get();
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
+      });
+    } finally {
+      executorService.shutdown();
+      executorService.awaitTermination(1, TimeUnit.SECONDS);
+    }
   }
 
   @Override
