@@ -80,7 +80,7 @@ public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
         byte[] valBytes = new byte[valBuffer.capacity()];
         valBuffer.getBytes(0, valBytes);
 
-        return Order.fromBytes(valBuffer.byteArray());
+        return Order.fromBytes(valBytes);
       } finally {
         txn.commit();
       }
