@@ -8,7 +8,6 @@ import org.rocksdb.RocksDB;
 import org.rocksdb.RocksDBException;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 public class RocksDBStorage implements Storage<String, Order> {
 
@@ -35,14 +34,8 @@ public class RocksDBStorage implements Storage<String, Order> {
 
   @Override
   public void write(String key, Order order) throws IOException {
-    ByteBuffer keyBuffer = ByteBuffer.allocate(key.getBytes().length);
-    keyBuffer.put(key.getBytes());
-
-    ByteBuffer valBuffer = ByteBuffer.allocate(order.toBytes().length);
-    valBuffer.put(order.toBytes());
-
     try {
-      rocksDb.put(keyBuffer.array(), valBuffer.array());
+      rocksDb.put(key.getBytes(), order.toBytes());
     } catch (RocksDBException e) {
       throw new IOException(e);
     }
@@ -60,5 +53,6 @@ public class RocksDBStorage implements Storage<String, Order> {
   @Override
   public void close() {
     rocksDb.close();
+    System.out.println("RocksDB instance closed: " + rocksDb + ", thank you, good bye");
   }
 }

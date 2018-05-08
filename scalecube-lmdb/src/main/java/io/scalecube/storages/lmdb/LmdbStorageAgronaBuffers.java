@@ -40,20 +40,23 @@ public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
 
     db = env.openDbi(DB_NAME, MDB_CREATE);
     System.getProperties().setProperty(Env.DISABLE_CHECKS_PROP, "true");
+
+    System.out.println("Lmdb (with agrona buffers) created: " + db + ", env: " + env);
   }
 
   @Override
-  public void write(String key, Order value) throws IOException {
+  public void write(String key, Order val) throws IOException {
     try (Txn<DirectBuffer> txn = env.txnWrite()) {
-      try (Cursor<DirectBuffer> c = db.openCursor(txn)) {
+      try (Cursor<DirectBuffer> cursor = db.openCursor(txn)) {
         byte[] keyBytes = key.getBytes();
         MutableDirectBuffer keyBuffer = new UnsafeBuffer(allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);
 
-        byte[] valBytes = value.toBytes();
-        MutableDirectBuffer valueBuffer = new UnsafeBuffer(allocateDirect(valBytes.length));
-        valueBuffer.putBytes(0, valBytes);
-        c.put(keyBuffer, valueBuffer);
+        byte[] valBytes = val.toBytes();
+        MutableDirectBuffer valBuffer = new UnsafeBuffer(allocateDirect(valBytes.length));
+        valBuffer.putBytes(0, valBytes);
+
+        cursor.put(keyBuffer, valBuffer);
       } finally {
         txn.commit();
       }
@@ -80,5 +83,6 @@ public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
   public void close() {
     db.close();
     env.close();
+    System.out.println("Lmdb (with agrona buffers) closed: " + db + ", env: " + env + ", thank you, good bye");
   }
 }

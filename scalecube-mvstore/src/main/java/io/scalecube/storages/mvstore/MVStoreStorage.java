@@ -20,21 +20,24 @@ public class MVStoreStorage implements Storage<String, Order> {
         .fileName(new File(path, "mvstore.db").getAbsolutePath())
         .fileStore(new OffHeapStore())
         .open();
+    System.out.println("MVStore instance created: " + mvStore);
     mvMap = mvStore.openMap("MVStoreStorage");
+    System.out.println("MVMap instance opened: " + mvStore);
   }
 
   @Override
-  public void write(String str, Order order) {
-    mvMap.put(str, order);
+  public void write(String key, Order order) {
+    mvMap.put(key, order);
   }
 
   @Override
-  public Order read(String str) {
-    return mvMap.get(str);
+  public Order read(String key) {
+    return mvMap.get(key);
   }
 
   @Override
   public void close() {
     mvStore.close();
+    System.out.println("MVStore instance closed: " + mvStore + ", thank you, good bye");
   }
 }

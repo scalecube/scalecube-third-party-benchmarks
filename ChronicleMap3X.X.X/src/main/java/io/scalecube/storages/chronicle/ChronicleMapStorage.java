@@ -21,6 +21,8 @@ public class ChronicleMapStorage implements Storage<String, Order> {
         .entries(entriesCount)
         .maxBloatFactor(50)
         .createOrRecoverPersistedTo(path, true);
+
+    System.out.println("ChronicleMap created: " + chronicleMap);
   }
 
   @Override
@@ -36,5 +38,6 @@ public class ChronicleMapStorage implements Storage<String, Order> {
   @Override
   public void close() {
     chronicleMap.close();
+    System.out.println("ChronicleMap closed: " + chronicleMap + ", thank you, good bye");
   }
 }

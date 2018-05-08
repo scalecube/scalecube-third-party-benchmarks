@@ -8,7 +8,7 @@ import io.scalecube.storages.common.StorageReaderTest;
 
 import com.codahale.metrics.MetricRegistry;
 
-public class MStoreReaderTest {
+public class MVStoreReaderTest {
 
   private static final int nThreads = Runtime.getRuntime().availableProcessors();
 
