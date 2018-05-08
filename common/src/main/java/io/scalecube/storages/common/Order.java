@@ -75,9 +75,7 @@ public class Order implements Externalizable {
   }
 
   public enum Status {
-    PendingVerification("Pending"),
-    Approved("Approved"),
-    Rejected("Rejected");
+    PendingVerification("Pending"), Approved("Approved"), Rejected("Rejected");
 
     private String statusStr;
 

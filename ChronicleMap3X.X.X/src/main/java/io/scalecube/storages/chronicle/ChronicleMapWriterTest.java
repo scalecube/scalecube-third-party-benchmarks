@@ -1,11 +1,12 @@
 package io.scalecube.storages.chronicle;
 
-import com.codahale.metrics.MetricRegistry;
+import static io.scalecube.storages.common.Constants.N;
+
 import io.scalecube.storages.common.Order;
 import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.StorageWriterTest;
 
-import static io.scalecube.storages.common.Constants.N;
+import com.codahale.metrics.MetricRegistry;
 
 public class ChronicleMapWriterTest {
 
