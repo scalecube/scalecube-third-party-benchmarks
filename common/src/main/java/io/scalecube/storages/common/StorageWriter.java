@@ -29,7 +29,6 @@ public class StorageWriter {
   }
 
   void write() {
-    // Write to full
     IntStream.rangeClosed(1, n).forEach(i -> {
       Order order = new Order(i);
       Timer.Context time = writeTimer.time();

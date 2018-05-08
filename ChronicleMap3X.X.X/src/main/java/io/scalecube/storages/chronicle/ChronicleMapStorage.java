@@ -24,7 +24,7 @@ public class ChronicleMapStorage implements Storage<String, Order> {
         .averageValueSize(512)
         .createOrRecoverPersistedTo(path, true);
 
-    System.out.println("ChronicleMap created: " + chronicleMap);
+    System.out.println("ChronicleMap created: " + chronicleMap.toIdentityString());
   }
 
   @Override

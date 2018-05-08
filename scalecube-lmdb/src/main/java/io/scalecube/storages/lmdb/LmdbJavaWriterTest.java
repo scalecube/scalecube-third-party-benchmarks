@@ -1,6 +1,6 @@
 package io.scalecube.storages.lmdb;
 
-import static io.scalecube.storages.common.Constants.N;
+import static io.scalecube.storages.common.Constants.nEntries;
 
 import io.scalecube.storages.common.Order;
 import io.scalecube.storages.common.Storage;
@@ -16,7 +16,7 @@ public class LmdbJavaWriterTest {
     MetricRegistry registry = new MetricRegistry();
     Storage<String, Order> storage = new LmdbStorageAgronaBuffers();
     try {
-      new StorageWriterTest(nThreads, N, registry, storage).test();
+      new StorageWriterTest(nThreads, nEntries, registry, storage).test();
     } finally {
       storage.close();
     }
