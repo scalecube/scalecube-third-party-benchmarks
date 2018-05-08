@@ -8,10 +8,10 @@ import java.util.stream.IntStream;
 public class StorageWriter {
 
   private final int n;
-  private final Storage<Integer, Order> storage;
+  private final Storage<String, Order> storage;
   private Timer writeTimer;
 
-  public StorageWriter(int n, Storage<Integer, Order> storage, Timer writeTimer) {
+  public StorageWriter(int n, Storage<String, Order> storage, Timer writeTimer) {
     this.n = n;
     this.storage = storage;
     this.writeTimer = writeTimer;
@@ -19,7 +19,7 @@ public class StorageWriter {
 
   void populate() {
     IntStream.rangeClosed(1, n).forEach(i -> {
-      Order order1 = new Order();
+      Order order1 = new Order(i);
       try {
         storage.write(order1.getId(), order1);
       } catch (IOException e) {
@@ -31,7 +31,7 @@ public class StorageWriter {
   void write() {
     // Write to full
     IntStream.rangeClosed(1, n).forEach(i -> {
-      Order order = new Order();
+      Order order = new Order(i);
       Timer.Context time = writeTimer.time();
       try {
         storage.write(order.getId(), order);

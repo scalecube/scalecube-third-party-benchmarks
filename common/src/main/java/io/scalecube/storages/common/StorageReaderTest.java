@@ -19,7 +19,7 @@ public class StorageReaderTest implements Runnable {
   private final StorageReader storageReader;
   private final ExecutorService executorService;
 
-  public StorageReaderTest(int nThreads, int n, MetricRegistry registry, Storage<Integer, Order> storage) {
+  public StorageReaderTest(int nThreads, int n, MetricRegistry registry, Storage<String, Order> storage) {
     this.nThreads = nThreads;
     this.n = n;
     this.registry = registry;

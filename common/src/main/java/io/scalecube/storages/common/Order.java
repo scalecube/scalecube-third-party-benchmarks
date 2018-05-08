@@ -1,9 +1,11 @@
 package io.scalecube.storages.common;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
@@ -11,13 +13,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Order implements Externalizable {
 
-  private static final AtomicInteger idCnt = new AtomicInteger();
-
-  private int id;
+  private String id;
   private String userId;
   private String instrumentInstanceId;
   private int quantity;
@@ -26,7 +25,6 @@ public class Order implements Externalizable {
   private LocalDateTime clientTimestamp;
   private LocalDateTime serverTimestamp;
   private String userIpAddress;
-
 
   public byte[] toBytes() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -38,7 +36,7 @@ public class Order implements Externalizable {
 
   @Override
   public void writeExternal(ObjectOutput out) throws IOException {
-    out.writeInt(id);
+    out.writeUTF(id);
     out.writeUTF(userId);
     out.writeUTF(instrumentInstanceId);
     out.writeInt(quantity);
@@ -51,7 +49,7 @@ public class Order implements Externalizable {
 
   @Override
   public void readExternal(ObjectInput in) throws IOException {
-    id = in.readInt();
+    id = in.readUTF();
     userId = in.readUTF();
     instrumentInstanceId = in.readUTF();
     quantity = in.readInt();
@@ -62,8 +60,17 @@ public class Order implements Externalizable {
     userIpAddress = in.readUTF();
   }
 
-  public Order() {
-    this.id = idCnt.getAndIncrement();
+  public static Order fromBytes(byte[] valBytes) throws IOException {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(valBytes));
+    Order order = new Order();
+    order.readExternal(ois);
+    return order;
+  }
+
+  public Order() {}
+
+  public Order(int i) {
+    this.id = Constants.ID_PREFIX + i;
     this.userId = UUID.randomUUID().toString();
     this.instrumentInstanceId = UUID.randomUUID().toString();
     this.quantity = UUID.randomUUID().hashCode();
@@ -74,22 +81,7 @@ public class Order implements Externalizable {
     this.userIpAddress = "127.0.0.1";
   }
 
-  public enum Status {
-    PendingVerification("Pending"), Approved("Approved"), Rejected("Rejected");
-
-    private String statusStr;
-
-    Status(String statusStr) {
-      this.statusStr = statusStr;
-    }
-
-    public String getStatusStr() {
-      return statusStr;
-    }
-
-  }
-
-  public int getId() {
+  public String getId() {
     return id;
   }
 

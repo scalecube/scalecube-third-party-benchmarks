@@ -14,7 +14,7 @@ public class RocksDBWriterTest {
 
   public static void main(String[] args) throws Exception {
     MetricRegistry registry = new MetricRegistry();
-    Storage<Integer, Order> storage = new RocksDBStorage();
+    Storage<String, Order> storage = new RocksDBStorage();
     try {
       new StorageWriterTest(nThreads, N, registry, storage).test();
     } finally {

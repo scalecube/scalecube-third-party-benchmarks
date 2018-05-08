@@ -24,9 +24,10 @@ import java.io.IOException;
  * <p/>
  * 1. Uses Agrona buffers. 2. Don't fsync after commit. 3. Use writable mmap.
  */
-public class LmdbStorageAgronaBuffers implements Storage<Integer, Order> {
+public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
 
   public static final String DB_NAME = "LmdbStorageAgronaBuffers";
+
   private final Env<DirectBuffer> env;
   private final Dbi<DirectBuffer> db;
 
@@ -42,26 +43,37 @@ public class LmdbStorageAgronaBuffers implements Storage<Integer, Order> {
   }
 
   @Override
-  public void write(Integer k, Order v) throws IOException {
+  public void write(String key, Order value) throws IOException {
     try (Txn<DirectBuffer> txn = env.txnWrite()) {
-      final Cursor<DirectBuffer> c = db.openCursor(txn);
+      try (Cursor<DirectBuffer> c = db.openCursor(txn)) {
+        byte[] keyBytes = key.getBytes();
+        MutableDirectBuffer keyBuffer = new UnsafeBuffer(allocateDirect(keyBytes.length));
+        keyBuffer.putBytes(0, keyBytes);
 
-      final MutableDirectBuffer key = new UnsafeBuffer(allocateDirect(4));
-      key.putInt(0, v.getId());
-
-      byte[] valBytes = v.toBytes();
-      final MutableDirectBuffer val = new UnsafeBuffer(allocateDirect(valBytes.length));
-      val.putBytes(0, valBytes);
-      c.put(key, val);
-
-      c.close();
-      txn.commit();
+        byte[] valBytes = value.toBytes();
+        MutableDirectBuffer valueBuffer = new UnsafeBuffer(allocateDirect(valBytes.length));
+        valueBuffer.putBytes(0, valBytes);
+        c.put(keyBuffer, valueBuffer);
+      } finally {
+        txn.commit();
+      }
     }
   }
 
   @Override
-  public Order read(Integer o) {
-    return null;
+  public Order read(String key) throws IOException {
+    try (Txn<DirectBuffer> txn = env.txnRead()) {
+      try {
+        byte[] keyBytes = key.getBytes();
+        MutableDirectBuffer keyBuffer = new UnsafeBuffer(allocateDirect(keyBytes.length));
+        keyBuffer.putBytes(0, keyBytes);
+        DirectBuffer valBuffer = db.get(txn, keyBuffer);
+
+        return Order.fromBytes(valBuffer.byteArray());
+      } finally {
+        txn.commit();
+      }
+    }
   }
 
   @Override

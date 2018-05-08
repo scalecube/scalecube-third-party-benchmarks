@@ -10,7 +10,7 @@ import org.rocksdb.RocksDBException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class RocksDBStorage implements Storage<Integer, Order> {
+public class RocksDBStorage implements Storage<String, Order> {
 
   private final RocksDB rocksDb;
 
@@ -34,27 +34,31 @@ public class RocksDBStorage implements Storage<Integer, Order> {
   }
 
   @Override
-  public void write(Integer i, Order order) throws IOException {
-    final ByteBuffer key = ByteBuffer.allocate(4);
-    key.putInt(0, i);
+  public void write(String key, Order order) throws IOException {
+    ByteBuffer keyBuffer = ByteBuffer.allocate(key.getBytes().length);
+    keyBuffer.put(key.getBytes());
 
-    final ByteBuffer val = ByteBuffer.allocate(order.toBytes().length);
-    val.put(order.toBytes());
+    ByteBuffer valBuffer = ByteBuffer.allocate(order.toBytes().length);
+    valBuffer.put(order.toBytes());
 
     try {
-      rocksDb.put(key.array(), val.array());
+      rocksDb.put(keyBuffer.array(), valBuffer.array());
     } catch (RocksDBException e) {
       throw new IOException(e);
     }
   }
 
   @Override
-  public Order read(Integer integer) throws IOException {
-    return null;
+  public Order read(String key) throws IOException {
+    try {
+      return Order.fromBytes(rocksDb.get(key.getBytes()));
+    } catch (RocksDBException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override
   public void close() {
-
+    rocksDb.close();
   }
 }

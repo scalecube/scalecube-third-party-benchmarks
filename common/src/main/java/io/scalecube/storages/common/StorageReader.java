@@ -9,10 +9,10 @@ import java.util.stream.IntStream;
 public class StorageReader {
 
   private final int n;
-  private final Storage<Integer, Order> storage;
+  private final Storage<String, Order> storage;
   private final Timer readTimer;
 
-  public StorageReader(int n, Storage<Integer, Order> storage, Timer readTimer) {
+  public StorageReader(int n, Storage<String, Order> storage, Timer readTimer) {
     this.n = n;
     this.storage = storage;
     this.readTimer = readTimer;
@@ -22,10 +22,10 @@ public class StorageReader {
     ThreadLocalRandom rnd = ThreadLocalRandom.current();
     IntStream.rangeClosed(1, n).forEach(i -> {
       int idx = rnd.nextInt(1, n);
+      String key = Constants.ID_PREFIX + idx;
       Timer.Context readTime = readTimer.time();
       try {
-        Order read = storage.read(idx);
-        assert read != null;
+        storage.read(key);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

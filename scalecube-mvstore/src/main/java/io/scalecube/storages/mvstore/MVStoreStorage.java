@@ -9,32 +9,32 @@ import org.h2.mvstore.OffHeapStore;
 
 import java.io.File;
 
-public class MVStoreStorage implements Storage<Integer, Order> {
+public class MVStoreStorage implements Storage<String, Order> {
 
-  private final MVMap<Integer, Order> map;
-  private final MVStore s;
+  private final MVMap<String, Order> mvMap;
+  private final MVStore mvStore;
 
-  MVStoreStorage() {
+  public MVStoreStorage() {
     File path = new File(".");
-    s = new MVStore.Builder()
+    mvStore = new MVStore.Builder()
         .fileName(new File(path, "mvstore.db").getAbsolutePath())
         .fileStore(new OffHeapStore())
         .open();
-    map = s.openMap("MVStoreStorage");
+    mvMap = mvStore.openMap("MVStoreStorage");
   }
 
   @Override
-  public void write(Integer integer, Order order) {
-    map.put(integer, order);
+  public void write(String str, Order order) {
+    mvMap.put(str, order);
   }
 
   @Override
-  public Order read(Integer integer) {
-    return map.get(integer);
+  public Order read(String str) {
+    return mvMap.get(str);
   }
 
   @Override
   public void close() {
-    s.close();
+    mvStore.close();
   }
 }

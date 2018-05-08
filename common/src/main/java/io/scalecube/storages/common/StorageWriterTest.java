@@ -17,7 +17,7 @@ public class StorageWriterTest implements Runnable {
   private final StorageWriter storageWriter;
   private final ExecutorService executorService;
 
-  public StorageWriterTest(int nThreads, int n, MetricRegistry registry, Storage<Integer, Order> storage) {
+  public StorageWriterTest(int nThreads, int n, MetricRegistry registry, Storage<String, Order> storage) {
     this.nThreads = nThreads;
     this.n = n;
     this.registry = registry;

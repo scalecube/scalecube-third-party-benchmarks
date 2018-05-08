@@ -14,7 +14,7 @@ public class LmdbJavaWriterTest {
 
   public static void main(String[] args) throws Exception {
     MetricRegistry registry = new MetricRegistry();
-    Storage<Integer, Order> storage = new LmdbStorageAgronaBuffers();
+    Storage<String, Order> storage = new LmdbStorageAgronaBuffers();
     try {
       new StorageWriterTest(nThreads, N, registry, storage).test();
     } finally {

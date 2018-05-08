@@ -14,7 +14,7 @@ public class MStoreReaderTest {
 
   public static void main(String[] args) throws Exception {
     MetricRegistry registry = new MetricRegistry();
-    Storage<Integer, Order> storage = new MVStoreStorage();
+    Storage<String, Order> storage = new MVStoreStorage();
     try {
       new StorageReaderTest(nThreads, N, registry, storage).test();
     } finally {
