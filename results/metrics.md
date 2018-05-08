@@ -6,9 +6,9 @@ _Hardware_: Intel® Core™ i5-7200U CPU @ 2.50GHz × 4, 64-bit, Ubuntu 16.04 LT
 **Table of results**
 ---
 
-| DB|Reads (r/sec) | Reads(ns) | Writes (w/sec) | Writes (ns) |
-| --- | --- | --- | --- | --- |
-| Chronicle | 170142 | 17770 | **149385** | **10277** |
-| RocksDB | 403310 | 37 | 98330 | 9596 | 
-| LMDB | **382013** | **34** | 64846 | 34936 |
-| MVStore | 13774 | 254521 | no | no |
+| DB| Reads(ns) |Writes (ns) |
+| --- | --- | --- |
+| Chronicle | 17770 | **10277** |
+| RocksDB | 37 | 9596 | 
+| LMDB | **34** | 34936 |
+| MVStore | 254521 | no |
