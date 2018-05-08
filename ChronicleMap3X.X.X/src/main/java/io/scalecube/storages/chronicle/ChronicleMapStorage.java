@@ -20,6 +20,8 @@ public class ChronicleMapStorage implements Storage<String, Order> {
         .name("chronicleMap")
         .entries(entriesCount)
         .maxBloatFactor(50)
+        .averageKeySize(128)
+        .averageValueSize(512)
         .createOrRecoverPersistedTo(path, true);
 
     System.out.println("ChronicleMap created: " + chronicleMap);
