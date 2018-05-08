@@ -44,7 +44,8 @@ public class RocksDBStorage implements Storage<String, Order> {
   @Override
   public Order read(String key) throws IOException {
     try {
-      return Order.fromBytes(rocksDb.get(key.getBytes()));
+      byte[] valBytes = rocksDb.get(key.getBytes());
+      return valBytes != null ? Order.fromBytes(valBytes) : null;
     } catch (RocksDBException e) {
       throw new IOException(e);
     }

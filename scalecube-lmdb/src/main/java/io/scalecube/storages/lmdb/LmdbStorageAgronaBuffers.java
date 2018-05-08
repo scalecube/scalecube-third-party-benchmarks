@@ -1,7 +1,5 @@
 package io.scalecube.storages.lmdb;
 
-import static java.nio.ByteBuffer.allocateDirect;
-import static org.lmdbjava.DbiFlags.MDB_CREATE;
 import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
 
 import io.scalecube.storages.common.Order;
@@ -12,12 +10,14 @@ import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
 import org.lmdbjava.Cursor;
 import org.lmdbjava.Dbi;
+import org.lmdbjava.DbiFlags;
 import org.lmdbjava.Env;
 import org.lmdbjava.EnvFlags;
 import org.lmdbjava.Txn;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * LMDB storage connector with the following configuration:
@@ -36,9 +36,10 @@ public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
     env = Env.create(PROXY_DB)
         .setMapSize(10_485_760_000L)
         .setMaxDbs(1)
+        .setMaxReaders(Integer.MAX_VALUE)
         .open(path, EnvFlags.MDB_NOSYNC, EnvFlags.MDB_WRITEMAP);
 
-    db = env.openDbi(DB_NAME, MDB_CREATE);
+    db = env.openDbi(DB_NAME, DbiFlags.MDB_CREATE);
     System.getProperties().setProperty(Env.DISABLE_CHECKS_PROP, "true");
 
     System.out.println("Lmdb (with agrona buffers) created: " + db + ", env: " + env);
@@ -49,11 +50,11 @@ public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
     try (Txn<DirectBuffer> txn = env.txnWrite()) {
       try (Cursor<DirectBuffer> cursor = db.openCursor(txn)) {
         byte[] keyBytes = key.getBytes();
-        MutableDirectBuffer keyBuffer = new UnsafeBuffer(allocateDirect(keyBytes.length));
+        MutableDirectBuffer keyBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);
 
         byte[] valBytes = val.toBytes();
-        MutableDirectBuffer valBuffer = new UnsafeBuffer(allocateDirect(valBytes.length));
+        MutableDirectBuffer valBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(valBytes.length));
         valBuffer.putBytes(0, valBytes);
 
         cursor.put(keyBuffer, valBuffer);
@@ -68,9 +69,16 @@ public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
     try (Txn<DirectBuffer> txn = env.txnRead()) {
       try {
         byte[] keyBytes = key.getBytes();
-        MutableDirectBuffer keyBuffer = new UnsafeBuffer(allocateDirect(keyBytes.length));
+        MutableDirectBuffer keyBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);
+
         DirectBuffer valBuffer = db.get(txn, keyBuffer);
+        if (valBuffer == null) {
+          return null;
+        }
+
+        byte[] valBytes = new byte[valBuffer.capacity()];
+        valBuffer.getBytes(0, valBytes);
 
         return Order.fromBytes(valBuffer.byteArray());
       } finally {
