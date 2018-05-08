@@ -40,6 +40,5 @@ public class ChronicleMapStorage implements Storage<String, Order> {
   @Override
   public void close() {
     chronicleMap.close();
-    System.out.println("ChronicleMap closed: " + chronicleMap + ", thank you, good bye");
   }
 }
