@@ -5,7 +5,7 @@ _Writes_: Write 5M records from each thread (4 threads = num of cores)
 _Hardware_: Amazon EC2
 ---
 
-| DB| Reads(ns) | Reads(tps/s) | Writes (ns) | Writes (tps/s) |
+| DB| Reads(ns/op) | Reads(calls/second) | Writes(ns/op) | Writes(calls/second) |
 | --- | --- | --- | --- | --- | 
 | Chronicle 2cpu | 3429 | 102889 | 5430 | 52267 |
 | Chronicle 4cpu | 6392 | 223274 | 5780 | 92596 |
