@@ -1,45 +1,49 @@
-**Reads**
+**## Reads 2 cores**
 <pre>
-5/8/18 4:00:55 PM ==============================================================
-
--- Timers ----------------------------------------------------------------------
-full-reads
-             count = 19824481
-         mean rate = 167742.08 calls/second
-     1-minute rate = 200675.41 calls/second
-     5-minute rate = 56290.04 calls/second
-    15-minute rate = 19955.55 calls/second
-               min = 3518.00 nanoseconds
-               max = 65162.00 nanoseconds
-              mean = 6394.79 nanoseconds
-            stddev = 3186.33 nanoseconds
-            median = 5788.00 nanoseconds
-              75% <= 6167.00 nanoseconds
-              95% <= 9965.00 nanoseconds
-              98% <= 13158.00 nanoseconds
-              99% <= 18232.00 nanoseconds
-            99.9% <= 65162.00 nanoseconds
+TO BE DONE
 </pre>
 
-**Writes**
+**## Writes 2 cores**
 <pre>
-5/8/18 3:10:14 PM ==============================================================
-
--- Timers ----------------------------------------------------------------------
 full-writes
-             count = 19942724
-         mean rate = 76439.23 calls/second
-     1-minute rate = 92588.95 calls/second
-     5-minute rate = 47752.39 calls/second
-    15-minute rate = 19693.36 calls/second
-               min = 3219.00 nanoseconds
-               max = 3503622.00 nanoseconds
-              mean = 28513.35 nanoseconds
-            stddev = 147506.77 nanoseconds
-            median = 22611.00 nanoseconds
-              75% <= 29306.00 nanoseconds
-              95% <= 40857.00 nanoseconds
-              98% <= 58590.00 nanoseconds
-              99% <= 84447.00 nanoseconds
-            99.9% <= 1899865.00 nanoseconds
+             count = 9965884
+         mean rate = 27806.31 calls/second
+     1-minute rate = 36919.74 calls/second
+     5-minute rate = 21801.88 calls/second
+    15-minute rate = 9470.13 calls/second
+               min = 4962.00 nanoseconds
+               max = 1472394.00 nanoseconds
+              mean = 36634.74 nanoseconds
+            stddev = 89956.79 nanoseconds
+            median = 17650.00 nanoseconds
+              75% <= 36088.00 nanoseconds
+              95% <= 97527.00 nanoseconds
+              98% <= 193831.00 nanoseconds
+              99% <= 285050.00 nanoseconds
+            99.9% <= 1472394.00 nanoseconds
+</pre>
+
+**#### Reads 4 cores**
+<pre>
+TO BE DONE
+</pre>
+
+**#### Writes 4 cores**
+<pre>
+full-writes
+             count = 19958059
+         mean rate = 48323.27 calls/second
+     1-minute rate = 56865.10 calls/second
+     5-minute rate = 39088.02 calls/second
+    15-minute rate = 18243.19 calls/second
+               min = 2886.00 nanoseconds
+               max = 4030706.00 nanoseconds
+              mean = 42323.85 nanoseconds
+            stddev = 200343.12 nanoseconds
+            median = 8514.00 nanoseconds
+              75% <= 40579.00 nanoseconds
+              95% <= 98522.00 nanoseconds
+              98% <= 275129.00 nanoseconds
+              99% <= 532625.00 nanoseconds
+            99.9% <= 4030706.00 nanoseconds
 </pre>
