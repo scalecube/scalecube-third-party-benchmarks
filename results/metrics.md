@@ -14,3 +14,4 @@ _Hardware_: Amazon EC2 with SSD g2
 | LMDB 2cpu | 5371 | 78326 | 32636 | 28654 |
 | LMDB 4cpu | 5752 | 193882 | 42223 | 48693 |
 
+![image](https://user-images.githubusercontent.com/1706296/39830346-d6e81466-53c9-11e8-92fc-e309b51b3f08.png)
