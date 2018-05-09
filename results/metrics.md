@@ -2,7 +2,7 @@
 _Pre-populate_: 5M records
 _Reads_: Read random item from 5M
 _Writes_: Write 5M records from each thread (4 threads = num of cores)
-_Hardware_: Amazon EC2
+_Hardware_: Amazon EC2 with SSD g2
 ---
 
 | DB| Reads(ns/op) | Reads(calls/second) | Writes(ns/op) | Writes(calls/second) |
