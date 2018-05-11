@@ -119,7 +119,7 @@ public class Order implements Externalizable {
 
   @Override
   public String toString() {
-    return "etc.Order{" +
+    return "Order{" +
         "id='" + id + '\'' +
         ", userId='" + userId + '\'' +
         ", instrumentInstanceId='" + instrumentInstanceId + '\'' +

@@ -13,7 +13,7 @@ public class ChronicleMapStorage implements Storage<String, Order> {
   private final ChronicleMap<String, Order> chronicleMap;
 
   public ChronicleMapStorage(int entriesCount) throws IOException {
-    final File path = new File("ChronicleMapStorage");
+    final File path = new File("/mnt/efs/ChronicleMapStorage");
 
     chronicleMap = ChronicleMap
         .of(String.class, Order.class)
