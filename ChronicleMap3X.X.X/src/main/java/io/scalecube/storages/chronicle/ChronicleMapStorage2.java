@@ -2,23 +2,25 @@ package io.scalecube.storages.chronicle;
 
 import io.scalecube.storages.common.Order;
 import io.scalecube.storages.common.Storage;
+import net.openhft.chronicle.map.ChronicleMap;
 
 import java.io.File;
 import java.io.IOException;
 
-import net.openhft.chronicle.map.ChronicleMap;
-
-public class ChronicleMapStorage implements Storage<String, Order> {
+public class ChronicleMapStorage2 implements Storage<String, Order> {
 
   private final ChronicleMap<String, Order> chronicleMap;
 
-  public ChronicleMapStorage(int entriesCount) throws IOException {
+  public ChronicleMapStorage2(int entriesCount) throws IOException {
     final File path = new File("benchmarks/orders.db");
 
     path.getParentFile().mkdirs();
 
+    ChronicleMapMarshaller<Order> marshaller = new ChronicleMapMarshaller<>();
+
     chronicleMap = ChronicleMap
         .of(String.class, Order.class)
+        .valueMarshaller(marshaller)
         .name("chronicleMap")
         .entries(entriesCount)
         .maxBloatFactor(50)
@@ -34,6 +36,16 @@ public class ChronicleMapStorage implements Storage<String, Order> {
                 }));
 
     System.out.println("ChronicleMap created: " + chronicleMap.toIdentityString());
+  }
+
+  public static void main(String[] args) throws IOException {
+    ChronicleMapStorage2 storage2 = new ChronicleMapStorage2(100);
+
+    storage2.write("1", new Order(1));
+
+    Order order = storage2.read("1");
+
+    System.out.println(order);
   }
 
   @Override

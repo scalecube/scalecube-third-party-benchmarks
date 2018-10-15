@@ -14,7 +14,8 @@ public class ChronicleMapReaderTest {
 
   public static void main(String[] args) throws Exception {
     MetricRegistry registry = new MetricRegistry();
-    Storage<String, Order> storage = new ChronicleMapStorage(nEntries);
+//    Storage<String, Order> storage = new ChronicleMapStorage(nEntries);
+    Storage<String, Order> storage = new ChronicleMapStorage2(nEntries);
     try {
       new StorageReaderTest(nThreads, nEntries, registry, storage).test();
     } finally {
