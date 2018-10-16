@@ -1,6 +1,7 @@
 package io.scalecube.storages.common;
 
 import com.codahale.metrics.Timer;
+import com.eatthepath.uuid.FastUUID;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -20,7 +21,8 @@ public class StorageWriter {
     IntStream.rangeClosed(1, n).forEach(i -> {
       UUID id = null;
       if (!needToGenerateId) {
-        id = UUID.fromString(String.valueOf(i));
+//        id = UUID.fromString(String.valueOf(i));
+        id = FastUUID.parseUUID(String.valueOf(i));
       }
       Order order1 = new Order(id);
       try {
@@ -32,8 +34,11 @@ public class StorageWriter {
   }
 
   void write() {
+//    UUID uuid = UUID.randomUUID();
+    UUID uuid = null;
+
     IntStream.rangeClosed(1, n).forEach(i -> {
-      Order order = new Order(null);
+      Order order = new Order(uuid);
       Timer.Context time = writeTimer.time();
       try {
         storage.write(order.id(), order);

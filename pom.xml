@@ -180,6 +180,19 @@
         <artifactId>protostuff-collectionschema</artifactId>
         <version>${protostuff.version}</version>
       </dependency>
+
+      <!-- uuid -->
+      <dependency>
+        <groupId>com.fasterxml.uuid</groupId>
+        <artifactId>java-uuid-generator</artifactId>
+        <version>3.1.5</version>
+      </dependency>
+      <dependency>
+        <groupId>com.eatthepath</groupId>
+        <artifactId>fast-uuid</artifactId>
+        <version>0.1</version>
+      </dependency>
+
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>

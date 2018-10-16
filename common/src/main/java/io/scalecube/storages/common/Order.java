@@ -2,9 +2,9 @@ package io.scalecube.storages.common;
 
 import static io.scalecube.storages.common.Order.OrderStatus.Accepted;
 
-//import com.eatthepath.uuid.FastUUID;
-//import com.fasterxml.uuid.Generators;
-//import com.fasterxml.uuid.impl.TimeBasedGenerator;
+import com.eatthepath.uuid.FastUUID;
+import com.fasterxml.uuid.Generators;
+import com.fasterxml.uuid.impl.TimeBasedGenerator;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
@@ -20,9 +20,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 public final class Order implements Externalizable {
+
+  public static final TimeBasedGenerator GENERATOR = Generators.timeBasedGenerator();
+  public static final Random RANDOM = new Random(42);
 
   private UUID id;
   private String userId;
@@ -40,22 +44,23 @@ public final class Order implements Externalizable {
   private List<Fill> fills;
 
   public Order(UUID id) {
-    this.id = id != null ? id : UUID.randomUUID();
+//    this.id = id != null ? id : UUID.randomUUID();
+    this.id = id != null ? id : GENERATOR.generate();
     userId = "01234567-8901-2345-6789-012345678901";
     instrumentInstanceId = "01234567-8901-2345-6789-012345678901";
     instrumentName = "BTC";
-    quantity = BigDecimal.valueOf(Long.MAX_VALUE);
-    remainingQuantity = BigDecimal.valueOf(Long.MAX_VALUE);
+    quantity = BigDecimal.valueOf(RANDOM.nextLong());
+    remainingQuantity = BigDecimal.valueOf(RANDOM.nextLong());
     orderType = "orderType";
     side = "Side";
-    price = BigDecimal.valueOf(Long.MAX_VALUE);
+    price = BigDecimal.valueOf(RANDOM.nextLong());
     clientTimestamp = LocalDateTime.now();
     serverTimestamp = LocalDateTime.now();
     userIpAddress = "1234:5678:9012:3456:7890:1234:5678:9012";
     status = Accepted;
     fills = Arrays.asList(
-        new Fill(BigDecimal.valueOf(Long.MAX_VALUE), BigDecimal.valueOf(Long.MAX_VALUE), System.currentTimeMillis()),
-        new Fill(BigDecimal.valueOf(Long.MAX_VALUE), BigDecimal.valueOf(Long.MAX_VALUE), System.currentTimeMillis()));
+        new Fill(BigDecimal.valueOf(RANDOM.nextLong()), BigDecimal.valueOf(RANDOM.nextLong()), System.currentTimeMillis()),
+        new Fill(BigDecimal.valueOf(RANDOM.nextLong()), BigDecimal.valueOf(RANDOM.nextLong()), System.currentTimeMillis()));
   }
 
   private Order() {}
@@ -150,37 +155,49 @@ public final class Order implements Externalizable {
 
   @Override
   public void writeExternal(ObjectOutput out) throws IOException {
-//    out.writeUTF(FastUUID.toString(id));
-    out.writeUTF(id.toString());
+    out.writeUTF(FastUUID.toString(id));
+//    out.writeUTF(id.toString());
     out.writeUTF(userId);
     out.writeUTF(instrumentInstanceId);
-    out.writeObject(instrumentName);
+//    out.writeObject(instrumentName);
+    out.writeUTF(instrumentName);
     out.writeUTF(orderType);
     out.writeUTF(side);
-    out.writeObject(quantity);
-    out.writeObject(remainingQuantity);
-    out.writeObject(price);
-    out.writeObject(clientTimestamp);
-    out.writeObject(serverTimestamp);
+//    out.writeObject(quantity);
+//    out.writeObject(remainingQuantity);
+//    out.writeObject(price);
+//    out.writeObject(clientTimestamp);
+//    out.writeObject(serverTimestamp);
     out.writeUTF(userIpAddress);
     out.writeUTF(status.name());
-    out.writeObject(fills);
+
+//    out.writeObject(fills);
+    out.writeInt(fills.size());
+    for (Fill fill : fills) {
+//      out.writeObject(fill);
+//      out.writeObject(fill.price);
+//      out.writeObject(fill.quantity);
+      out.writeUTF(fill.quantity.toString());
+//      new BigDecimal()
+      out.writeLong(fill.timestamp);
+    }
   }
 
   @Override
   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-//    id = FastUUID.parseUUID(in.readUTF());
-    id = UUID.fromString(in.readUTF());
+    id = FastUUID.parseUUID(in.readUTF());
+//    id = UUID.fromString(in.readUTF());
     userId = in.readUTF();
     instrumentInstanceId = in.readUTF();
-    instrumentName = (String) in.readObject();
+//    instrumentName = (String) in.readObject();
+    instrumentName = in.readUTF();
     orderType = in.readUTF();
     side = in.readUTF();
-    quantity = (BigDecimal) in.readObject();
-    remainingQuantity = (BigDecimal) in.readObject();
-    price = (BigDecimal) in.readObject();
-    clientTimestamp = (LocalDateTime) in.readObject();
-    serverTimestamp = (LocalDateTime) in.readObject();
+//    quantity = (BigDecimal) in.readObject();
+//    remainingQuantity = (BigDecimal) in.readObject();
+//    price = (BigDecimal) in.readObject();
+//    clientTimestamp = (LocalDateTime) in.readObject();
+//    serverTimestamp = (LocalDateTime) in.readObject();
     userIpAddress = in.readUTF();
     status = OrderStatus.valueOf(in.readUTF());
     fills = (List<Fill>) in.readObject();
@@ -206,8 +223,8 @@ public final class Order implements Externalizable {
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder("Order{");
-//    sb.append("id=").append(FastUUID.toString(id));
-    sb.append("id=").append(id);
+    sb.append("id=").append(FastUUID.toString(id));
+//    sb.append("id=").append(id);
     sb.append(", userId='").append(userId).append('\'');
     sb.append(", instrumentInstanceId='").append(instrumentInstanceId).append('\'');
     sb.append(", instrumentName='").append(instrumentName).append('\'');
@@ -246,7 +263,6 @@ public final class Order implements Externalizable {
   }
 
   public static class Builder {
-//    private static final TimeBasedGenerator GENERATOR = Generators.timeBasedGenerator();
 
     private UUID id;
     private String userId;

@@ -4,6 +4,8 @@ import io.scalecube.storages.common.Order;
 import io.scalecube.storages.common.Storage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import net.openhft.chronicle.map.ChronicleMap;
 
@@ -21,7 +23,8 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
         .name("chronicleMap")
         .entries(entriesCount)
         .maxBloatFactor(50)
-        .averageKeySize(128)
+        .averageKey(UUID.randomUUID())
+        .averageValue(new Order(null))
         .averageValueSize(512)
         .createOrRecoverPersistedTo(file, true);
 
