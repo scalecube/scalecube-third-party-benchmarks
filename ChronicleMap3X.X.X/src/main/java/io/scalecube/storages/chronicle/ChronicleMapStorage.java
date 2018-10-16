@@ -2,38 +2,41 @@ package io.scalecube.storages.chronicle;
 
 import io.scalecube.storages.common.Order;
 import io.scalecube.storages.common.Storage;
-
 import java.io.File;
 import java.io.IOException;
-
+import java.util.UUID;
 import net.openhft.chronicle.map.ChronicleMap;
 
-public class ChronicleMapStorage implements Storage<String, Order> {
+public class ChronicleMapStorage implements Storage<UUID, Order> {
 
-  private final ChronicleMap<String, Order> chronicleMap;
+  private final ChronicleMap<UUID, Order> chronicleMap;
 
   public ChronicleMapStorage(int entriesCount) throws IOException {
-    final File path = new File("/mnt/efs/ChronicleMapStorage");
+    File file = new File("benchmarks/orders.db");
+
+    file.getParentFile().mkdirs();
 
     chronicleMap = ChronicleMap
-        .of(String.class, Order.class)
+        .of(UUID.class, Order.class)
         .name("chronicleMap")
         .entries(entriesCount)
         .maxBloatFactor(50)
         .averageKeySize(128)
         .averageValueSize(512)
-        .createOrRecoverPersistedTo(path, true);
+        .createOrRecoverPersistedTo(file, true);
+
+    Runtime.getRuntime().addShutdownHook(new Thread(file::deleteOnExit));
 
     System.out.println("ChronicleMap created: " + chronicleMap.toIdentityString());
   }
 
   @Override
-  public void write(String key, Order order) throws IOException {
+  public void write(UUID key, Order order) throws Exception {
     chronicleMap.put(key, order);
   }
 
   @Override
-  public Order read(String key) throws IOException {
+  public Order read(UUID key) throws Exception {
     return chronicleMap.get(key);
   }
 

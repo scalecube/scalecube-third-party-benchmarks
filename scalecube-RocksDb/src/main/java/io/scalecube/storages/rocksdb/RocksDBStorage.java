@@ -3,13 +3,14 @@ package io.scalecube.storages.rocksdb;
 import io.scalecube.storages.common.Order;
 import io.scalecube.storages.common.Storage;
 
+import java.util.UUID;
 import org.rocksdb.Options;
 import org.rocksdb.RocksDB;
 import org.rocksdb.RocksDBException;
 
 import java.io.IOException;
 
-public class RocksDBStorage implements Storage<String, Order> {
+public class RocksDBStorage implements Storage<UUID, Order> {
 
   private final RocksDB rocksDb;
 
@@ -33,18 +34,18 @@ public class RocksDBStorage implements Storage<String, Order> {
   }
 
   @Override
-  public void write(String key, Order order) throws IOException {
+  public void write(UUID key, Order order) throws Exception {
     try {
-      rocksDb.put(key.getBytes(), order.toBytes());
+      rocksDb.put(key.toString().getBytes(), order.toBytes());
     } catch (RocksDBException e) {
       throw new IOException(e);
     }
   }
 
   @Override
-  public Order read(String key) throws IOException {
+  public Order read(UUID key) throws Exception {
     try {
-      byte[] valBytes = rocksDb.get(key.getBytes());
+      byte[] valBytes = rocksDb.get(key.toString().getBytes());
       return valBytes != null ? Order.fromBytes(valBytes) : null;
     } catch (RocksDBException e) {
       throw new IOException(e);

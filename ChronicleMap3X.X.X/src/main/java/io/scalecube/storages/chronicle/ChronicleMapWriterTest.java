@@ -7,6 +7,7 @@ import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.StorageWriterTest;
 
 import com.codahale.metrics.MetricRegistry;
+import java.util.UUID;
 
 public class ChronicleMapWriterTest {
 
@@ -14,7 +15,7 @@ public class ChronicleMapWriterTest {
 
   public static void main(String[] args) throws Exception {
     MetricRegistry registry = new MetricRegistry();
-    Storage<String, Order> storage = new ChronicleMapStorage(nEntries);
+    Storage<UUID, Order> storage = new ChronicleMapStorage(nEntries);
     try {
       new StorageWriterTest(nThreads, nEntries, registry, storage).test();
     } finally {

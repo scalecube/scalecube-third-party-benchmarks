@@ -3,6 +3,7 @@ package io.scalecube.storages.common;
 import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
 
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,7 +18,7 @@ public class StorageWriterTest implements Runnable {
   private final StorageWriter storageWriter;
   private final ExecutorService executorService;
 
-  public StorageWriterTest(int nThreads, int n, MetricRegistry registry, Storage<String, Order> storage) {
+  public StorageWriterTest(int nThreads, int n, MetricRegistry registry, Storage<UUID, Order> storage) {
     this.nThreads = nThreads;
     this.n = n;
     this.registry = registry;
