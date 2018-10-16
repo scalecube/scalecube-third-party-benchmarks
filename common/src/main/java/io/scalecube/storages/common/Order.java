@@ -159,26 +159,21 @@ public final class Order implements Externalizable {
 //    out.writeUTF(id.toString());
     out.writeUTF(userId);
     out.writeUTF(instrumentInstanceId);
-//    out.writeObject(instrumentName);
     out.writeUTF(instrumentName);
     out.writeUTF(orderType);
     out.writeUTF(side);
-//    out.writeObject(quantity);
-//    out.writeObject(remainingQuantity);
-//    out.writeObject(price);
+    out.writeUTF(quantity.toString());
+    out.writeUTF(remainingQuantity.toString());
+    out.writeUTF(price.toString());
 //    out.writeObject(clientTimestamp);
 //    out.writeObject(serverTimestamp);
     out.writeUTF(userIpAddress);
     out.writeUTF(status.name());
 
-//    out.writeObject(fills);
     out.writeInt(fills.size());
     for (Fill fill : fills) {
-//      out.writeObject(fill);
-//      out.writeObject(fill.price);
-//      out.writeObject(fill.quantity);
+      out.writeUTF(fill.price.toString());
       out.writeUTF(fill.quantity.toString());
-//      new BigDecimal()
       out.writeLong(fill.timestamp);
     }
   }
