@@ -14,7 +14,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -165,21 +167,23 @@ public final class Order implements Externalizable {
     out.writeUTF(quantity.toString());
     out.writeUTF(remainingQuantity.toString());
     out.writeUTF(price.toString());
+
 //    out.writeObject(clientTimestamp);
+    out.writeLong(clientTimestamp.atZone(ZoneOffset.UTC).toInstant().toEpochMilli());
 //    out.writeObject(serverTimestamp);
+    out.writeLong(serverTimestamp.atZone(ZoneOffset.UTC).toInstant().toEpochMilli());
+
     out.writeUTF(userIpAddress);
     out.writeUTF(status.name());
 
     out.writeInt(fills.size());
     for (Fill fill : fills) {
-      out.writeUTF(fill.price.toString());
-      out.writeUTF(fill.quantity.toString());
-      out.writeLong(fill.timestamp);
+      fill.writeExternal(out);
     }
   }
 
   @Override
-  public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+  public void readExternal(ObjectInput in) throws IOException {
     id = FastUUID.parseUUID(in.readUTF());
 //    id = UUID.fromString(in.readUTF());
     userId = in.readUTF();
@@ -189,13 +193,25 @@ public final class Order implements Externalizable {
     orderType = in.readUTF();
     side = in.readUTF();
 //    quantity = (BigDecimal) in.readObject();
+    quantity = new BigDecimal(in.readUTF());
 //    remainingQuantity = (BigDecimal) in.readObject();
+    remainingQuantity = new BigDecimal(in.readUTF());
 //    price = (BigDecimal) in.readObject();
+    price = new BigDecimal(in.readUTF());
 //    clientTimestamp = (LocalDateTime) in.readObject();
+    clientTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(in.readLong()), ZoneOffset.UTC);
 //    serverTimestamp = (LocalDateTime) in.readObject();
+    serverTimestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(in.readLong()), ZoneOffset.UTC);
     userIpAddress = in.readUTF();
     status = OrderStatus.valueOf(in.readUTF());
-    fills = (List<Fill>) in.readObject();
+    int fillsLength = in.readInt();
+    Fill[] fills = new Fill[fillsLength];
+    for (int i = 0; i < fillsLength; i++) {
+      Fill fill = new Fill();
+      fill.readExternal(in);
+      fills[i] = fill;
+    }
+    this.fills = Arrays.asList(fills);
   }
 
   @Override
@@ -276,8 +292,8 @@ public final class Order implements Externalizable {
 
     private Builder() {
 
-//      this.id = GENERATOR.generate();
-      this.id = UUID.randomUUID();
+      this.id = GENERATOR.generate();
+//      this.id = UUID.randomUUID();
       this.status = Accepted;
     }
 
@@ -372,7 +388,7 @@ public final class Order implements Externalizable {
     private BigDecimal quantity;
     private long timestamp;
 
-    public Fill() {}
+    private Fill() {}
 
     public Fill(BigDecimal price, BigDecimal quantity, long timestamp) {
       this.price = price;
@@ -394,15 +410,15 @@ public final class Order implements Externalizable {
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-      out.writeObject(price);
-      out.writeObject(quantity);
+      out.writeUTF(price.toString());
+      out.writeUTF(quantity.toString());
       out.writeLong(timestamp);
     }
 
     @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-      price = (BigDecimal) in.readObject();
-      quantity = (BigDecimal) in.readObject();
+    public void readExternal(ObjectInput in) throws IOException {
+      price = new BigDecimal(in.readUTF());
+      quantity = new BigDecimal(in.readUTF());
       timestamp = in.readLong();
     }
 
