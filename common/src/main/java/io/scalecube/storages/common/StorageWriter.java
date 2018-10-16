@@ -1,9 +1,6 @@
 package io.scalecube.storages.common;
 
 import com.codahale.metrics.Timer;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -19,9 +16,13 @@ public class StorageWriter {
     this.writeTimer = writeTimer;
   }
 
-  void populate() {
+  void populate(boolean needToGenerateId) {
     IntStream.rangeClosed(1, n).forEach(i -> {
-      Order order1 = new Order(i);
+      UUID id = null;
+      if (!needToGenerateId) {
+        id = UUID.fromString(String.valueOf(i));
+      }
+      Order order1 = new Order(id);
       try {
         storage.write(order1.id(), order1);
       } catch (Exception e) {
@@ -32,7 +33,7 @@ public class StorageWriter {
 
   void write() {
     IntStream.rangeClosed(1, n).forEach(i -> {
-      Order order = new Order(i);
+      Order order = new Order(null);
       Timer.Context time = writeTimer.time();
       try {
         storage.write(order.id(), order);

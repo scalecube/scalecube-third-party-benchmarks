@@ -29,7 +29,7 @@ public class StorageWriterTest implements Runnable {
   public void test() throws Exception {
     try {
       System.out.println("###### Starting to populate db with " + n + " elements");
-      storageWriter.populate();
+      storageWriter.populate(true);
       System.out.println("###### Finished to populate db");
 
       ConsoleReporter reporter =

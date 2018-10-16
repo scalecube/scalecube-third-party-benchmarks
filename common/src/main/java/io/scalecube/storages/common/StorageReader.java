@@ -20,18 +20,18 @@ public class StorageReader {
   }
 
   public void read() {
-//    ThreadLocalRandom rnd = ThreadLocalRandom.current();
-//    IntStream.rangeClosed(1, n).forEach(i -> {
-//      int idx = rnd.nextInt(1, n);
-//      String key = Constants.ID_PREFIX + idx;
-//      Timer.Context readTime = readTimer.time();
-//      try {
-//        storage.read(key);
-//      } catch (IOException e) {
-//        throw new RuntimeException(e);
-//      }
-//      readTime.stop();
-//    });
+    ThreadLocalRandom rnd = ThreadLocalRandom.current();
+    IntStream.rangeClosed(1, n).forEach(i -> {
+      int idx = rnd.nextInt(1, n);
+      UUID key = UUID.fromString(String.valueOf(idx));
+      Timer.Context readTime = readTimer.time();
+      try {
+        storage.read(key);
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+      readTime.stop();
+    });
 
     throw new UnsupportedOperationException("read");
   }

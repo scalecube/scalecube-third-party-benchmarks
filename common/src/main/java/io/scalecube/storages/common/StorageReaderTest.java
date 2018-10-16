@@ -32,7 +32,7 @@ public class StorageReaderTest implements Runnable {
   public void test() throws Exception {
     try {
       System.out.println("###### Starting to populate db with " + n + " elements");
-      storageWriter.populate();
+      storageWriter.populate(false);
       System.out.println("###### Finished to populate db");
 
       ConsoleReporter reporter =

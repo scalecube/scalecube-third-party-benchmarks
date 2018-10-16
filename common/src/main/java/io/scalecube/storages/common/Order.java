@@ -39,8 +39,8 @@ public final class Order implements Externalizable {
   private OrderStatus status;
   private List<Fill> fills;
 
-  public Order(int ignore) {
-    id = UUID.randomUUID();
+  public Order(UUID id) {
+    this.id = id != null ? id : UUID.randomUUID();
     userId = "01234567-8901-2345-6789-012345678901";
     instrumentInstanceId = "01234567-8901-2345-6789-012345678901";
     instrumentName = "BTC";
@@ -58,20 +58,7 @@ public final class Order implements Externalizable {
         new Fill(BigDecimal.valueOf(Long.MAX_VALUE), BigDecimal.valueOf(Long.MAX_VALUE), System.currentTimeMillis()));
   }
 
-  public byte[] toBytes() throws Exception {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    ObjectOutputStream oos = new ObjectOutputStream(baos);
-    writeExternal(oos);
-    oos.flush();
-    return baos.toByteArray();
-  }
-
-  public static Order fromBytes(byte[] valBytes) throws Exception {
-    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(valBytes));
-    Order order = new Order(0);
-    order.readExternal(ois);
-    return order;
-  }
+  private Order() {}
 
   private Order(Builder builder) {
     id = builder.id;
@@ -144,6 +131,21 @@ public final class Order implements Externalizable {
 
   public OrderStatus status() {
     return status;
+  }
+
+  public byte[] toBytes() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(baos);
+    writeExternal(oos);
+    oos.flush();
+    return baos.toByteArray();
+  }
+
+  public static Order fromBytes(byte[] valBytes) throws Exception {
+    ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(valBytes));
+    Order order = new Order();
+    order.readExternal(ois);
+    return order;
   }
 
   @Override

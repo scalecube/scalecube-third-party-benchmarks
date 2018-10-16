@@ -27,12 +27,12 @@ public class ChronicleEngineStorage implements Storage<UUID, Order> {
     }
 
     @Override
-    public void write(UUID s, Order order) throws IOException {
+    public void write(UUID s, Order order) {
         diskMap.put(s, order);
     }
 
     @Override
-    public Order read(UUID s) throws IOException {
+    public Order read(UUID s) {
         return diskMap.get(s);
     }
 
@@ -41,9 +41,10 @@ public class ChronicleEngineStorage implements Storage<UUID, Order> {
         endpoint.close();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         ChronicleEngineStorage storage = new ChronicleEngineStorage();
-        Order o = new Order(42);
+        // todo fix it
+        Order o = new Order(UUID.fromString("1"));
         storage.write(o.id(), o);
         Order o1 = storage.read(o.id());
         System.out.println(o1);
