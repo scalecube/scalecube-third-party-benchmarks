@@ -28,16 +28,6 @@
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
     </dependency>
-
-    <!-- uuid -->
-    <dependency>
-      <groupId>com.fasterxml.uuid</groupId>
-      <artifactId>java-uuid-generator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.eatthepath</groupId>
-      <artifactId>fast-uuid</artifactId>
-    </dependency>
   </dependencies>
 
 </project>
