@@ -2,7 +2,7 @@ package io.scalecube.storages.lmdb;
 
 import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
 
-import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.entity.Order;
 import io.scalecube.storages.common.Storage;
 
 import java.util.UUID;
@@ -17,7 +17,6 @@ import org.lmdbjava.EnvFlags;
 import org.lmdbjava.Txn;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**

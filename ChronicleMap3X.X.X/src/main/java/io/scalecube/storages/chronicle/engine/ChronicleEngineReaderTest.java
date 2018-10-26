@@ -1,8 +1,7 @@
 package io.scalecube.storages.chronicle.engine;
 
 import com.codahale.metrics.MetricRegistry;
-import io.scalecube.storages.chronicle.ChronicleMapStorage;
-import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.entity.Order;
 import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.StorageReaderTest;
 import java.util.UUID;

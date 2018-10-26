@@ -2,7 +2,7 @@ package io.scalecube.storages.common;
 
 import com.codahale.metrics.Timer;
 
-import java.io.IOException;
+import io.scalecube.storages.common.entity.Order;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
@@ -23,7 +23,7 @@ public class StorageReader {
     ThreadLocalRandom rnd = ThreadLocalRandom.current();
     IntStream.rangeClosed(1, n).forEach(i -> {
       int idx = rnd.nextInt(1, n);
-      UUID key = UUID.fromString(String.valueOf(idx));
+      UUID key = UUID.fromString("00000000-0000-0000-0000-" + String.format("%012d", idx));
       Timer.Context readTime = readTimer.time();
       try {
         storage.read(key);

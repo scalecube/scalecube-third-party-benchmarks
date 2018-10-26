@@ -3,6 +3,7 @@ package io.scalecube.storages.common;
 import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
 
+import io.scalecube.storages.common.entity.Order;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -29,7 +30,7 @@ public class StorageWriterTest implements Runnable {
   public void test() throws Exception {
     try {
       System.out.println("###### Starting to populate db with " + n + " elements");
-      storageWriter.populate(true);
+      storageWriter.populate();
       System.out.println("###### Finished to populate db");
 
       ConsoleReporter reporter =

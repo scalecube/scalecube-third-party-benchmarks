@@ -1,11 +1,9 @@
 package io.scalecube.storages.chronicle;
 
-import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.entity.Order;
 import io.scalecube.storages.common.Storage;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 import net.openhft.chronicle.map.ChronicleMap;
 

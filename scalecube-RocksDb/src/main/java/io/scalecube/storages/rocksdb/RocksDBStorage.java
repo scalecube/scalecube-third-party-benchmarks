@@ -1,6 +1,6 @@
 package io.scalecube.storages.rocksdb;
 
-import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.entity.Order;
 import io.scalecube.storages.common.Storage;
 
 import java.util.UUID;

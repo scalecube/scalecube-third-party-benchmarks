@@ -2,7 +2,7 @@ package io.scalecube.storages.rocksdb;
 
 import static io.scalecube.storages.common.Constants.nEntries;
 
-import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.entity.Order;
 import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.StorageWriterTest;
 

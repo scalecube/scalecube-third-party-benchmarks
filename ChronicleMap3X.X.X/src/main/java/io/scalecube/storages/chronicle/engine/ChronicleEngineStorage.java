@@ -1,6 +1,6 @@
 package io.scalecube.storages.chronicle.engine;
 
-import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.entity.Order;
 import io.scalecube.storages.common.Storage;
 import java.util.UUID;
 import net.openhft.chronicle.engine.api.tree.AssetTree;
