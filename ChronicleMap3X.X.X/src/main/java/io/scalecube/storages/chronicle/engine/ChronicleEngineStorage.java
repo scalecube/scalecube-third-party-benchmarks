@@ -43,10 +43,11 @@ public class ChronicleEngineStorage implements Storage<UUID, Order> {
 
     public static void main(String[] args) {
         ChronicleEngineStorage storage = new ChronicleEngineStorage();
-        // todo fix it
-        Order o = new Order(UUID.fromString("1"));
-        storage.write(o.id(), o);
-        Order o1 = storage.read(o.id());
-        System.out.println(o1);
+        UUID id = UUID.fromString("00000000-0000-0000-0000-" + String.format("%012d", 213));
+        Order order = new Order(id);
+        System.out.println(order);
+        storage.write(order.id(), order);
+        Order actual = storage.read(order.id());
+        System.out.println(actual);
     }
 }
