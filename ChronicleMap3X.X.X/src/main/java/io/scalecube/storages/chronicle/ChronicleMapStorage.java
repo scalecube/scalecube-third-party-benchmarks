@@ -22,7 +22,7 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
         .entries(entriesCount)
         .maxBloatFactor(50)
         .averageKey(UUID.randomUUID())
-        .averageValue(new Order(null))
+        .averageValue(new Order(UUID.randomUUID()))
         .averageValueSize(512)
         .createOrRecoverPersistedTo(file, true);
 
