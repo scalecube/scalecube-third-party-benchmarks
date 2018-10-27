@@ -46,7 +46,7 @@ public class ChronicleEngineStorage implements Storage<UUID, Order> {
 
   public static void main(String[] args) {
     ChronicleEngineStorage storage = new ChronicleEngineStorage(null);
-    UUID id = UUID.fromString("00000000-0000-0000-0000-" + String.format("%012d", 213));
+    UUID id = new UUID(Long.MAX_VALUE, 213);
     Order order = new Order(id);
     System.out.println(order);
     storage.write(order.id(), order);

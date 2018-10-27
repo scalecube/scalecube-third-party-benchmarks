@@ -50,7 +50,7 @@ public class StorageState extends BenchmarkState<StorageState> {
   }
 
   public UUID uuid(int n) {
-    return UUID.fromString("00000000-0000-0000-0000-" + String.format("%012d", n));
+    return new UUID(Integer.MAX_VALUE, n);
   }
 
   private void populate(int n) {
