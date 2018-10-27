@@ -60,7 +60,7 @@ public class StorageState extends BenchmarkState<StorageState> {
           .runOn(scheduler())
           .doOnNext(
               i -> {
-                Order order = new Order(uuid(n));
+                Order order = new Order(uuid(i));
                 try {
                   storage.write(order.id(), order);
                 } catch (Exception e) {
@@ -68,6 +68,7 @@ public class StorageState extends BenchmarkState<StorageState> {
                 }
               })
           .groups()
+          .flatMap(Function.identity())
           .blockLast();
     }
   }

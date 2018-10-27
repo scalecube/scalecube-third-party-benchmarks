@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ReadScenario {
 
@@ -30,14 +31,17 @@ public class ReadScenario {
               BenchmarkTimer timer = state.timer("read");
               int preloadCount = state.preloadCount();
 
+              Supplier<UUID> uuidSupplier =
+                  preloadCount > 0
+                      ? () -> state.uuid(ThreadLocalRandom.current().nextInt(0, preloadCount))
+                      : () -> state.uuid(0); // not found case
+
               return iteration -> {
-                ThreadLocalRandom rnd = ThreadLocalRandom.current();
-                int idx = rnd.nextInt(0, preloadCount);
-                UUID key = state.uuid(idx);
-                Order read = storage.read(key);
+                UUID key = uuidSupplier.get();
+                Order order = storage.read(key);
                 BenchmarkTimer.Context readTime = timer.time();
                 readTime.stop();
-                return read;
+                return key;
               };
             });
   }
