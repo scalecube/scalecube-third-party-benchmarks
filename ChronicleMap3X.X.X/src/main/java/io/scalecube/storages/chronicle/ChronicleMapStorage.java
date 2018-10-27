@@ -1,48 +1,80 @@
 package io.scalecube.storages.chronicle;
 
-import io.scalecube.storages.common.entity.Order;
+import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.storages.common.Storage;
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
+import io.scalecube.storages.common.entity.Order;
 import net.openhft.chronicle.map.ChronicleMap;
+import reactor.core.Exceptions;
+
+import java.io.File;
+import java.util.Optional;
+import java.util.UUID;
 
 public class ChronicleMapStorage implements Storage<UUID, Order> {
 
-  private final ChronicleMap<UUID, Order> chronicleMap;
+  private final BenchmarkSettings settings;
 
-  public ChronicleMapStorage(int entriesCount) throws IOException {
-    File file = new File("benchmarks/orders.db");
+  private ChronicleMap<UUID, Order> chronicleMap;
+  private File persistenceFile;
 
-    file.getParentFile().mkdirs();
-
-    chronicleMap = ChronicleMap
-        .of(UUID.class, Order.class)
-        .name("chronicleMap")
-        .entries(entriesCount)
-        .maxBloatFactor(50)
-        .averageKey(UUID.randomUUID())
-        .averageValue(new Order(UUID.randomUUID()))
-        .averageValueSize(512)
-        .createOrRecoverPersistedTo(file, true);
-
-    Runtime.getRuntime().addShutdownHook(new Thread(file::deleteOnExit));
-
-    System.out.println("ChronicleMap created: " + chronicleMap.toIdentityString());
+  public ChronicleMapStorage(BenchmarkSettings settings) {
+    this.settings = settings;
   }
 
   @Override
-  public void write(UUID key, Order order) throws Exception {
+  public void start() {
+    try {
+      Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+
+      persistenceFile = new File(settings.find("persistenceFile", "benchmarks/orders.db"));
+      persistenceFile.deleteOnExit();
+      persistenceFile.getParentFile().mkdirs();
+
+      int entriesCount =
+          Optional.ofNullable(settings.find("entriesCount", null))
+              .map(Integer::parseInt)
+              .orElse(1_000_000);
+
+      chronicleMap =
+          ChronicleMap.of(UUID.class, Order.class)
+              .name("chronicleMap")
+              .entries(entriesCount)
+              .maxBloatFactor(50)
+              .averageKey(UUID.randomUUID())
+              .averageValue(new Order(UUID.randomUUID()))
+              .createOrRecoverPersistedTo(persistenceFile, true);
+
+      System.out.println("ChronicleMap created: " + chronicleMap.toIdentityString());
+    } catch (Exception e) {
+      throw Exceptions.propagate(e);
+    }
+  }
+
+  @Override
+  public void write(UUID key, Order order) {
     chronicleMap.put(key, order);
   }
 
   @Override
-  public Order read(UUID key) throws Exception {
+  public Order read(UUID key) {
     return chronicleMap.get(key);
   }
 
   @Override
   public void close() {
-    chronicleMap.close();
+    try {
+      if (chronicleMap != null) {
+        chronicleMap.close();
+      }
+    } finally {
+      if (persistenceFile != null) {
+        persistenceFile.deleteOnExit();
+      }
+    }
+  }
+
+  @Override
+  public String toString() {
+    return chronicleMap != null ? chronicleMap.toIdentityString() : "ChronicleMap{ [not started] }";
   }
 }

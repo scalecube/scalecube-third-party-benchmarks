@@ -1,20 +1,23 @@
 package io.scalecube.storages.rocksdb;
 
-import io.scalecube.storages.common.entity.Order;
+import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.storages.common.Storage;
-
-import java.util.UUID;
+import io.scalecube.storages.common.entity.Order;
 import org.rocksdb.Options;
 import org.rocksdb.RocksDB;
 import org.rocksdb.RocksDBException;
+import reactor.core.Exceptions;
 
-import java.io.IOException;
+import java.util.UUID;
 
 public class RocksDBStorage implements Storage<UUID, Order> {
 
-  private final RocksDB rocksDb;
+  private RocksDB rocksDb;
 
-  public RocksDBStorage() {
+  public RocksDBStorage(BenchmarkSettings settings) {}
+
+  @Override
+  public void start() {
     RocksDB.loadLibrary();
     System.out.println("RocksDB.loadLibrary DONE");
 
@@ -34,21 +37,21 @@ public class RocksDBStorage implements Storage<UUID, Order> {
   }
 
   @Override
-  public void write(UUID key, Order order) throws Exception {
+  public void write(UUID key, Order order) {
     try {
       rocksDb.put(key.toString().getBytes(), order.toBytes());
-    } catch (RocksDBException e) {
-      throw new IOException(e);
+    } catch (Exception e) {
+      throw Exceptions.propagate(e);
     }
   }
 
   @Override
-  public Order read(UUID key) throws Exception {
+  public Order read(UUID key) {
     try {
       byte[] valBytes = rocksDb.get(key.toString().getBytes());
       return valBytes != null ? Order.fromBytes(valBytes) : null;
-    } catch (RocksDBException e) {
-      throw new IOException(e);
+    } catch (Exception e) {
+      throw Exceptions.propagate(e);
     }
   }
 

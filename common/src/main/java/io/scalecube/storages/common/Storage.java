@@ -2,9 +2,11 @@ package io.scalecube.storages.common;
 
 public interface Storage<K, V> {
 
-  void write(K k, V v) throws Exception;
+  void start();
 
-  V read(K k) throws Exception;
+  void write(K k, V v);
+
+  V read(K k);
 
   void close();
 }
