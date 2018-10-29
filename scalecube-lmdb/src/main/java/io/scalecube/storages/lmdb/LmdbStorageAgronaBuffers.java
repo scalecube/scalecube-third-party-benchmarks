@@ -2,9 +2,10 @@ package io.scalecube.storages.lmdb;
 
 import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
 
-import io.scalecube.storages.common.Order;
+import io.scalecube.storages.common.entity.Order;
 import io.scalecube.storages.common.Storage;
 
+import java.util.UUID;
 import org.agrona.DirectBuffer;
 import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
@@ -16,7 +17,6 @@ import org.lmdbjava.EnvFlags;
 import org.lmdbjava.Txn;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
@@ -24,7 +24,7 @@ import java.nio.ByteBuffer;
  * <p/>
  * 1. Uses Agrona buffers. 2. Don't fsync after commit. 3. Use writable mmap.
  */
-public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
+public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
 
   public static final String DB_NAME = "LmdbStorageAgronaBuffers";
 
@@ -46,10 +46,10 @@ public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
   }
 
   @Override
-  public void write(String key, Order val) throws IOException {
+  public void write(UUID key, Order val) throws Exception {
     try (Txn<DirectBuffer> txn = env.txnWrite()) {
       try (Cursor<DirectBuffer> cursor = db.openCursor(txn)) {
-        byte[] keyBytes = key.getBytes();
+        byte[] keyBytes = key.toString().getBytes();
         MutableDirectBuffer keyBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);
 
@@ -65,10 +65,10 @@ public class LmdbStorageAgronaBuffers implements Storage<String, Order> {
   }
 
   @Override
-  public Order read(String key) throws IOException {
+  public Order read(UUID key) throws Exception {
     try (Txn<DirectBuffer> txn = env.txnRead()) {
       try {
-        byte[] keyBytes = key.getBytes();
+        byte[] keyBytes = key.toString().getBytes();
         MutableDirectBuffer keyBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);
 

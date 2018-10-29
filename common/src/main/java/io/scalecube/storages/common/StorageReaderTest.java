@@ -2,7 +2,8 @@ package io.scalecube.storages.common;
 
 import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
-
+import io.scalecube.storages.common.entity.Order;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,7 +20,8 @@ public class StorageReaderTest implements Runnable {
   private final StorageReader storageReader;
   private final ExecutorService executorService;
 
-  public StorageReaderTest(int nThreads, int n, MetricRegistry registry, Storage<String, Order> storage) {
+  public StorageReaderTest(int nThreads, int n, MetricRegistry registry,
+      Storage<UUID, Order> storage) {
     this.nThreads = nThreads;
     this.n = n;
     this.registry = registry;
@@ -38,7 +40,8 @@ public class StorageReaderTest implements Runnable {
           ConsoleReporter.forRegistry(registry).convertDurationsTo(TimeUnit.NANOSECONDS).build();
       reporter.start(1, TimeUnit.SECONDS);
       CompletableFuture[] futures = new CompletableFuture[nThreads];
-      IntStream.range(0, nThreads).forEach(i -> futures[i] = CompletableFuture.runAsync(this, executorService));
+      IntStream.range(0, nThreads)
+          .forEach(i -> futures[i] = CompletableFuture.runAsync(this, executorService));
       CompletableFuture.allOf(futures).join();
       reporter.stop();
     } finally {
