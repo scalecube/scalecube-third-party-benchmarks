@@ -3,80 +3,36 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.scalecube</groupId>
   <artifactId>scalecube-performance-storage-parent</artifactId>
   <version>2.0.1-SNAPSHOT</version>
+
+  <parent>
+    <groupId>io.scalecube</groupId>
+    <artifactId>scalecube-parent-pom</artifactId>
+    <version>0.0.14</version>
+  </parent>
   <packaging>pom</packaging>
 
   <name>ScaleCube</name>
-  <inceptionYear>2015</inceptionYear>
-  <url>http://scalecube.io</url>
-
-  <licenses>
-    <license>
-      <name>The Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-
-  <prerequisites>
-    <maven>3.0.3</maven>
-  </prerequisites>
-
   <scm>
-    <url>https://github.com/scalecube/scalecube</url>
-    <connection>scm:git:git@github.com:scalecube/scalecube-services.git</connection>
-    <developerConnection>scm:git:git@github.com:scalecube/scalecube-services.git</developerConnection>
+    <url>https://github.com/scalecube/storage-benchmarks</url>
+    <connection>scm:git:git@github.com:scalecube/storage-benchmarks.git</connection>
+    <developerConnection>scm:git:git@github.com:scalecube/storage-benchmarks.git
+    </developerConnection>
     <tag>HEAD</tag>
   </scm>
 
-  <developers>
-    <developer>
-      <id>scalecube.io</id>
-      <name>The ScaleCube Project Contributors</name>
-      <email>info@scalecube.io</email>
-      <organization>The ScaleCube Project</organization>
-      <organizationUrl>http://scalecube.io/</organizationUrl>
-    </developer>
-  </developers>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
-
   <properties>
-    <argLine>-Xms1024m -Xmx2048m</argLine>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <scalecube-benchmarks.version>1.2.2</scalecube-benchmarks.version>
-    <jackson.version>2.9.0</jackson.version>
-    <scalecube.version>1.0.9</scalecube.version>
-    <reactor.version>3.1.6.RELEASE</reactor.version>
-    <metrics.version>3.1.2</metrics.version>
-    <rsocket.version>0.10.3</rsocket.version>
-    <protostuff.version>1.6.0</protostuff.version>
-    <slf4j.version>1.7.7</slf4j.version>
-    <log4j.version>2.6.2</log4j.version>
-    <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
-    <maven-surefire-plugin.version>2.20</maven-surefire-plugin.version>
-    <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
-    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-    <nexus-staging-maven-plugin.version>1.6.3</nexus-staging-maven-plugin.version>
-    <maven-release-plugin.version>2.5</maven-release-plugin.version>
     <lmdbjava.version>0.6.1</lmdbjava.version>
     <junit.version>4.12</junit.version>
-    <metrics.version>3.1.2</metrics.version>
     <h2-mvstore.version>1.4.197</h2-mvstore.version>
     <agrona.version>0.9.16</agrona.version>
+    <jackson.version>2.9.6</jackson.version>
+    <reactor.version>3.2.1.RELEASE</reactor.version>
+    <protostuff.version>1.6.0</protostuff.version>
+    <enforcer.skip>true</enforcer.skip>
+
   </properties>
 
   <modules>
@@ -92,12 +48,7 @@
       <dependency>
         <groupId>net.openhft</groupId>
         <artifactId>chronicle-map</artifactId>
-        <version>3.14.5</version>
-      </dependency>
-      <dependency>
-        <groupId>net.openhft</groupId>
-        <artifactId>chronicle-map</artifactId>
-        <version>2.4.17</version>
+        <version>3.16.0</version>
       </dependency>
       <dependency>
         <groupId>net.openhft</groupId>
@@ -105,13 +56,12 @@
         <version>1.13.27</version>
       </dependency>
 
-      <!-- Dropwizard -->
+      <!-- https://mvnrepository.com/artifact/org.rocksdb/rocksdbjni -->
       <dependency>
-        <groupId>io.dropwizard.metrics</groupId>
-        <artifactId>metrics-core</artifactId>
-        <version>${metrics.version}</version>
+        <groupId>org.rocksdb</groupId>
+        <artifactId>rocksdbjni</artifactId>
+        <version>5.11.3</version>
       </dependency>
-
 
       <!-- Agrona buffers -->
       <dependency>
@@ -140,21 +90,7 @@
         <artifactId>reactor-core</artifactId>
         <version>${reactor.version}</version>
       </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-slf4j-impl</artifactId>
-        <version>${log4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>${log4j.version}</version>
-      </dependency>
+
       <!-- Protostuff/Protobuf -->
       <dependency>
         <groupId>io.protostuff</groupId>
@@ -201,63 +137,63 @@
     </dependencies>
   </dependencyManagement>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <id>default</id>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <transformers>
-                <transformer
-                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>${mainClass}</mainClass>
-                </transformer>
-                <transformer
-                    implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-              </transformers>
-              <outputDirectory>${project.build.directory}</outputDirectory>
-              <createDependencyReducedPom>false</createDependencyReducedPom>
-              <shadedArtifactAttached>true</shadedArtifactAttached>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.7.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-          <optimize>true</optimize>
-          <compilerArgs>
-            <arg>-proc:none</arg>
-            <arg>-Xlint:unchecked</arg>
-          </compilerArgs>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>${maven-release-plugin.version}</version>
-        <configuration>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <useReleaseProfile>false</useReleaseProfile>
-          <releaseProfiles>release</releaseProfiles>
-          <tagNameFormat>v@{project.version}</tagNameFormat>
-          <goals>deploy</goals>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+  <!--<build>-->
+    <!--<plugins>-->
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-shade-plugin</artifactId>-->
+        <!--<version>3.1.0</version>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<id>default</id>-->
+            <!--<phase>package</phase>-->
+            <!--<goals>-->
+              <!--<goal>shade</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+              <!--<transformers>-->
+                <!--<transformer-->
+                    <!--implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+                  <!--<mainClass>${mainClass}</mainClass>-->
+                <!--</transformer>-->
+                <!--<transformer-->
+                    <!--implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>-->
+              <!--</transformers>-->
+              <!--<outputDirectory>${project.build.directory}</outputDirectory>-->
+              <!--<createDependencyReducedPom>false</createDependencyReducedPom>-->
+              <!--<shadedArtifactAttached>true</shadedArtifactAttached>-->
+            <!--</configuration>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-compiler-plugin</artifactId>-->
+        <!--<version>3.7.0</version>-->
+        <!--<configuration>-->
+          <!--<source>1.8</source>-->
+          <!--<target>1.8</target>-->
+          <!--<optimize>true</optimize>-->
+          <!--<compilerArgs>-->
+            <!--<arg>-proc:none</arg>-->
+            <!--<arg>-Xlint:unchecked</arg>-->
+          <!--</compilerArgs>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-release-plugin</artifactId>-->
+        <!--<version>${maven-release-plugin.version}</version>-->
+        <!--<configuration>-->
+          <!--<autoVersionSubmodules>true</autoVersionSubmodules>-->
+          <!--<useReleaseProfile>false</useReleaseProfile>-->
+          <!--<releaseProfiles>release</releaseProfiles>-->
+          <!--<tagNameFormat>v@{project.version}</tagNameFormat>-->
+          <!--<goals>deploy</goals>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
+    <!--</plugins>-->
+  <!--</build>-->
 
   <repositories>
     <repository>
@@ -267,6 +203,22 @@
       <id>oss.jfrog</id>
       <name>jfrog</name>
       <url>https://oss.jfrog.org/libs-release</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>bintray</id>
+      <name>bintray</name>
+      <url>http://jcenter.bintray.com</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>central</name>
+      <url>http://repo1.maven.org</url>
     </repository>
   </repositories>
 
@@ -279,61 +231,15 @@
       <name>plugins-release</name>
       <url>https://oss.jfrog.org/artifactory/plugins-release</url>
     </pluginRepository>
+    <pluginRepository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>bintray-plugins</name>
+      <url>http://jcenter.bintray.com</url>
+    </pluginRepository>
   </pluginRepositories>
-
-  <profiles>
-    <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>${maven-gpg-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>${maven-source-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${maven-javadoc-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-                <configuration>
-                  <additionalparam>-Xdoclint:none</additionalparam>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
 </project>
 

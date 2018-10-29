@@ -1,6 +1,5 @@
 package io.scalecube.storages.common.entity;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
@@ -40,8 +39,13 @@ public final class Order implements Externalizable {
   private Order() {
   }
 
-  public Order(UUID id) {
-    this.id = id;
+  /**
+   * Generates a random order by the given order identifier.
+   *
+   * @param orderId order identifier
+   */
+  public Order(UUID orderId) {
+    this.id = orderId;
     userId = "01234567-8901-2345-6789-012345678901";
     instrumentInstanceId = "01234567-8901-2345-6789-012345678901";
     instrumentName = "BTC";
@@ -112,6 +116,11 @@ public final class Order implements Externalizable {
     this.fills = fills;
   }
 
+  /**
+   * Converts this order to an array of bytes.
+   *
+   * @return array of bytes
+   */
   public byte[] toBytes() throws Exception {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -120,6 +129,12 @@ public final class Order implements Externalizable {
     return baos.toByteArray();
   }
 
+  /**
+   * Converts the give array of bytes to an order.
+   *
+   * @param valBytes array of bytes
+   * @return an order
+   */
   public static Order fromBytes(byte[] valBytes) throws Exception {
     ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(valBytes));
     Order order = new Order();
@@ -146,21 +161,22 @@ public final class Order implements Externalizable {
 
   @Override
   public String toString() {
-    return "Order{" +
-        "id=" + id +
-        ", userId='" + userId + '\'' +
-        ", instrumentInstanceId='" + instrumentInstanceId + '\'' +
-        ", instrumentName='" + instrumentName + '\'' +
-        ", quantity=" + quantity +
-        ", remainingQuantity=" + remainingQuantity +
-        ", orderType=" + orderType +
-        ", side=" + side +
-        ", price=" + price +
-        ", clientTimestamp=" + clientTimestamp +
-        ", serverTimestamp=" + serverTimestamp +
-        ", userIpAddress='" + userIpAddress + '\'' +
-        ", status=" + status +
-        ", fills=" + fills +
-        '}';
+    final StringBuilder sb = new StringBuilder("Order{");
+    sb.append("id=").append(id);
+    sb.append(", userId='").append(userId).append('\'');
+    sb.append(", instrumentInstanceId='").append(instrumentInstanceId).append('\'');
+    sb.append(", instrumentName='").append(instrumentName).append('\'');
+    sb.append(", quantity=").append(quantity);
+    sb.append(", remainingQuantity=").append(remainingQuantity);
+    sb.append(", orderType=").append(orderType);
+    sb.append(", side=").append(side);
+    sb.append(", price=").append(price);
+    sb.append(", clientTimestamp=").append(clientTimestamp);
+    sb.append(", serverTimestamp=").append(serverTimestamp);
+    sb.append(", userIpAddress='").append(userIpAddress).append('\'');
+    sb.append(", status=").append(status);
+    sb.append(", fills=").append(fills);
+    sb.append('}');
+    return sb.toString();
   }
 }

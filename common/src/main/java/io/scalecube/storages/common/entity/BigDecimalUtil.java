@@ -8,6 +8,12 @@ import java.math.BigInteger;
 
 public final class BigDecimalUtil {
 
+  /**
+   * Writes BigDecimal to the given output.
+   *
+   * @param value value
+   * @param out output
+   */
   public static void writeObject(BigDecimal value, ObjectOutput out) throws IOException {
     BigInteger bigInteger = value.unscaledValue();
     out.writeInt(value.scale());
@@ -21,6 +27,12 @@ public final class BigDecimalUtil {
     }
   }
 
+  /**
+   * Reads BigDecimal from the given input.
+   *
+   * @param in input
+   * @return BigDecimal value
+   */
   public static BigDecimal readObject(ObjectInput in) throws IOException {
     int scale = in.readInt();
     int bytesLength = in.readInt();

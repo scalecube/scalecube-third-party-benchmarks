@@ -11,6 +11,12 @@ import java.util.function.Function;
 
 public class WriteScenario {
 
+  /**
+   * Runs write scenario.
+   *
+   * @param args args
+   * @param stateSupplier state supplier
+   */
   public static void runWith(
       String[] args, Function<BenchmarkSettings, StorageState> stateSupplier) {
     BenchmarkSettings settings =

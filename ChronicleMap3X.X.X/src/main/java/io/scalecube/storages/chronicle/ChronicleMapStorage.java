@@ -3,12 +3,11 @@ package io.scalecube.storages.chronicle;
 import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.entity.Order;
-import net.openhft.chronicle.map.ChronicleMap;
-import reactor.core.Exceptions;
-
 import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
+import net.openhft.chronicle.map.ChronicleMap;
+import reactor.core.Exceptions;
 
 public class ChronicleMapStorage implements Storage<UUID, Order> {
 

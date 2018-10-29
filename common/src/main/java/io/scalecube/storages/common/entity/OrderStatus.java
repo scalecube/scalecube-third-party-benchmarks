@@ -45,7 +45,7 @@ public enum OrderStatus {
     }
   };
 
-  public final static OrderStatus[] ALL = values();
+  public static final OrderStatus[] ALL = values();
 
   final int code;
 
@@ -53,6 +53,13 @@ public enum OrderStatus {
     this.code = code;
   }
 
+  /**
+   * Returns the enum constant of this type with the specified code.
+   *
+   * @param code the code which represents enum constant
+   * @return the enum constant with the specified code
+   * @throws IllegalArgumentException – if this enum type has no constant with the specified code
+   */
   public static OrderStatus valueOf(byte code) {
     for (OrderStatus status : values()) {
       if (status.code == code) {

@@ -3,18 +3,18 @@ package io.scalecube.storages.rocksdb;
 import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.entity.Order;
+import java.util.UUID;
 import org.rocksdb.Options;
 import org.rocksdb.RocksDB;
 import org.rocksdb.RocksDBException;
 import reactor.core.Exceptions;
 
-import java.util.UUID;
-
-public class RocksDBStorage implements Storage<UUID, Order> {
+public class RocksdbStorage implements Storage<UUID, Order> {
 
   private RocksDB rocksDb;
 
-  public RocksDBStorage(BenchmarkSettings settings) {}
+  public RocksdbStorage(BenchmarkSettings settings) {
+  }
 
   @Override
   public void start() {
@@ -28,7 +28,7 @@ public class RocksDBStorage implements Storage<UUID, Order> {
         .setIncreaseParallelism(Runtime.getRuntime().availableProcessors())
         .setCreateIfMissing(true)) {
 
-      rocksDb = RocksDB.open(options, "RocksDBStorage");
+      rocksDb = RocksDB.open(options, "RocksdbStorage");
 
       System.out.println("RocksDB opened: " + rocksDb);
     } catch (RocksDBException e) {

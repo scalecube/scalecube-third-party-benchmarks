@@ -1,8 +1,13 @@
 package io.scalecube.storages.lmdb;
 
+import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
+
 import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.entity.Order;
+import java.io.File;
+import java.nio.ByteBuffer;
+import java.util.UUID;
 import org.agrona.DirectBuffer;
 import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
@@ -13,12 +18,6 @@ import org.lmdbjava.Env;
 import org.lmdbjava.EnvFlags;
 import org.lmdbjava.Txn;
 import reactor.core.Exceptions;
-
-import java.io.File;
-import java.nio.ByteBuffer;
-import java.util.UUID;
-
-import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
 
 /**
  * LMDB storage connector with the following configuration:
@@ -55,11 +54,13 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
     try (Txn<DirectBuffer> txn = env.txnWrite()) {
       try (Cursor<DirectBuffer> cursor = db.openCursor(txn)) {
         byte[] keyBytes = key.toString().getBytes();
-        MutableDirectBuffer keyBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(keyBytes.length));
+        MutableDirectBuffer keyBuffer = new UnsafeBuffer(
+            ByteBuffer.allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);
 
         byte[] valBytes = val.toBytes();
-        MutableDirectBuffer valBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(valBytes.length));
+        MutableDirectBuffer valBuffer = new UnsafeBuffer(
+            ByteBuffer.allocateDirect(valBytes.length));
         valBuffer.putBytes(0, valBytes);
 
         cursor.put(keyBuffer, valBuffer);
@@ -76,7 +77,8 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
     try (Txn<DirectBuffer> txn = env.txnRead()) {
       try {
         byte[] keyBytes = key.toString().getBytes();
-        MutableDirectBuffer keyBuffer = new UnsafeBuffer(ByteBuffer.allocateDirect(keyBytes.length));
+        MutableDirectBuffer keyBuffer = new UnsafeBuffer(
+            ByteBuffer.allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);
 
         DirectBuffer valBuffer = db.get(txn, keyBuffer);
@@ -100,6 +102,7 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
   public void close() {
     db.close();
     env.close();
-    System.out.println("Lmdb (with agrona buffers) closed: " + db + ", env: " + env + ", thank you, good bye");
+    System.out.println(
+        "Lmdb (with agrona buffers) closed: " + db + ", env: " + env + ", thank you, good bye");
   }
 }

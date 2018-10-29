@@ -15,6 +15,13 @@ public class Fill implements Externalizable {
   public Fill() {
   }
 
+  /**
+   * Creates a fill with the given args.
+   *
+   * @param price price
+   * @param quantity quantity
+   * @param timestamp timestamp
+   */
   public Fill(BigDecimal price, BigDecimal quantity, long timestamp) {
     this.price = price;
     this.quantity = quantity;
