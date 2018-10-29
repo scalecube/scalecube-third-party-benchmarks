@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>scalecube-performance-storage-parent</artifactId>
     <groupId>io.scalecube</groupId>
@@ -12,16 +12,15 @@
   <artifactId>scalecube-rocksdb-benchmarks</artifactId>
 
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.rocksdb/rocksdbjni -->
-    <dependency>
-      <groupId>org.rocksdb</groupId>
-      <artifactId>rocksdbjni</artifactId>
-      <version>5.11.3</version>
-    </dependency>
     <dependency>
       <groupId>io.scalecube</groupId>
       <artifactId>scalecube-performance-storage-common</artifactId>
-      <version>2.0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.rocksdb</groupId>
+      <artifactId>rocksdbjni</artifactId>
     </dependency>
 
     <dependency>

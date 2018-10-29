@@ -13,14 +13,16 @@
 
   <dependencies>
     <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-performance-storage-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.lmdbjava</groupId>
       <artifactId>lmdbjava</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.scalecube</groupId>
-      <artifactId>scalecube-performance-storage-common</artifactId>
-      <version>2.0.1-SNAPSHOT</version>
-    </dependency>
+
     <dependency>
       <groupId>org.agrona</groupId>
       <artifactId>agrona</artifactId>

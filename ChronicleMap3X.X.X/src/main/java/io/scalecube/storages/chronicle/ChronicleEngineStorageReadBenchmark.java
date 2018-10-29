@@ -6,6 +6,11 @@ import io.scalecube.storages.common.StorageState;
 
 public class ChronicleEngineStorageReadBenchmark {
 
+  /**
+   * Runs benchmark with the read scenario.
+   *
+   * @param args args
+   */
   public static void main(String[] args) {
     ReadScenario.runWith(
         args,

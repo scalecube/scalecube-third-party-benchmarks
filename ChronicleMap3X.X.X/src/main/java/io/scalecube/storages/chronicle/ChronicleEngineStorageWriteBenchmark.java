@@ -6,6 +6,11 @@ import io.scalecube.storages.common.WriteScenario;
 
 public class ChronicleEngineStorageWriteBenchmark {
 
+  /**
+   * Runs benchmark with the write scenario.
+   *
+   * @param args args
+   */
   public static void main(String[] args) {
     WriteScenario.runWith(
         args,

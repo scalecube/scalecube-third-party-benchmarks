@@ -13,6 +13,12 @@ import java.util.function.Supplier;
 
 public class ReadScenario {
 
+  /**
+   * Runs read scenario.
+   *
+   * @param args args
+   * @param stateSupplier state supplier
+   */
   public static void runWith(
       String[] args, Function<BenchmarkSettings, StorageState> stateSupplier) {
     BenchmarkSettings settings =

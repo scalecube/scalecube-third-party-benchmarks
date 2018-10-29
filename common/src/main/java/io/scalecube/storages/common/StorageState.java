@@ -3,12 +3,11 @@ package io.scalecube.storages.common;
 import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.benchmarks.BenchmarkState;
 import io.scalecube.storages.common.entity.Order;
+import java.util.UUID;
+import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
-
-import java.util.UUID;
-import java.util.function.Function;
 
 public class StorageState extends BenchmarkState<StorageState> {
 
