@@ -25,6 +25,11 @@
       <groupId>org.agrona</groupId>
       <artifactId>agrona</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-benchmarks-log4j2</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

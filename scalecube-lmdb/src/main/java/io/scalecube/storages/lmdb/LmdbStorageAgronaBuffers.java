@@ -1,11 +1,8 @@
 package io.scalecube.storages.lmdb;
 
-import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
-
-import io.scalecube.storages.common.entity.Order;
+import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.storages.common.Storage;
-
-import java.util.UUID;
+import io.scalecube.storages.common.entity.Order;
 import org.agrona.DirectBuffer;
 import org.agrona.MutableDirectBuffer;
 import org.agrona.concurrent.UnsafeBuffer;
@@ -15,23 +12,31 @@ import org.lmdbjava.DbiFlags;
 import org.lmdbjava.Env;
 import org.lmdbjava.EnvFlags;
 import org.lmdbjava.Txn;
+import reactor.core.Exceptions;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.util.UUID;
+
+import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
 
 /**
  * LMDB storage connector with the following configuration:
- * <p/>
- * 1. Uses Agrona buffers. 2. Don't fsync after commit. 3. Use writable mmap.
+ *
+ * <p>1. Uses Agrona buffers. 2. Don't fsync after commit. 3. Use writable mmap.
  */
 public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
 
   public static final String DB_NAME = "LmdbStorageAgronaBuffers";
 
-  private final Env<DirectBuffer> env;
-  private final Dbi<DirectBuffer> db;
+  private Env<DirectBuffer> env;
+  private Dbi<DirectBuffer> db;
 
-  public LmdbStorageAgronaBuffers() {
+  public LmdbStorageAgronaBuffers(BenchmarkSettings settings) {
+  }
+
+  @Override
+  public void start() {
     File path = new File(".");
     env = Env.create(PROXY_DB)
         .setMapSize(10_485_760_000L)
@@ -46,7 +51,7 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
   }
 
   @Override
-  public void write(UUID key, Order val) throws Exception {
+  public void write(UUID key, Order val) {
     try (Txn<DirectBuffer> txn = env.txnWrite()) {
       try (Cursor<DirectBuffer> cursor = db.openCursor(txn)) {
         byte[] keyBytes = key.toString().getBytes();
@@ -58,6 +63,8 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
         valBuffer.putBytes(0, valBytes);
 
         cursor.put(keyBuffer, valBuffer);
+      } catch (Exception e) {
+        throw Exceptions.propagate(e);
       } finally {
         txn.commit();
       }
@@ -65,7 +72,7 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
   }
 
   @Override
-  public Order read(UUID key) throws Exception {
+  public Order read(UUID key) {
     try (Txn<DirectBuffer> txn = env.txnRead()) {
       try {
         byte[] keyBytes = key.toString().getBytes();
@@ -81,6 +88,8 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
         valBuffer.getBytes(0, valBytes);
 
         return Order.fromBytes(valBytes);
+      } catch (Exception e) {
+        throw Exceptions.propagate(e);
       } finally {
         txn.commit();
       }
