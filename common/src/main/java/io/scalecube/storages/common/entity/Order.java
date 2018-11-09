@@ -69,6 +69,12 @@ public final class Order implements Externalizable {
     return id;
   }
 
+  public Order withNewStatus(OrderStatus status) {
+    Order order = clone();
+    order.status = status;
+    return order;
+  }
+
   @Override
   public void writeExternal(ObjectOutput out) throws IOException {
     out.writeUTF(id.toString());
@@ -178,5 +184,25 @@ public final class Order implements Externalizable {
     sb.append(", fills=").append(fills);
     sb.append('}');
     return sb.toString();
+  }
+
+  @Override
+  protected Order clone() {
+    Order order = new Order();
+    order.id = this.id;
+    order.userId = this.userId;
+    order.instrumentInstanceId = this.instrumentInstanceId;
+    order.instrumentName = this.instrumentName;
+    order.quantity = this.quantity;
+    order.remainingQuantity = this.remainingQuantity;
+    order.orderType = this.orderType;
+    order.side = this.side;
+    order.price = this.price;
+    order.clientTimestamp = this.clientTimestamp;
+    order.serverTimestamp = this.serverTimestamp;
+    order.userIpAddress = this.userIpAddress;
+    order.fills = this.fills;
+    order.status = this.status;
+    return order;
   }
 }
