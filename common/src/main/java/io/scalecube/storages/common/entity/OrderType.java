@@ -18,12 +18,13 @@ public enum OrderType {
    * @throws IllegalArgumentException – if this enum type has no constant with the specified code
    */
   public static OrderType valueOf(byte code) {
-    for (OrderType type : values()) {
-      if (type.code == code) {
-        return type;
-      }
+    switch (code) {
+      case 1:
+        return Limit;
+      case 2:
+        return Market;
+      default:
+        throw new IllegalArgumentException("Unknown order type code: " + code);
     }
-
-    throw new IllegalArgumentException("Unknown order type code: " + code);
   }
 }

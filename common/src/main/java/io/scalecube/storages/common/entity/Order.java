@@ -83,7 +83,8 @@ public final class Order implements Externalizable {
 
   @Override
   public void writeExternal(ObjectOutput out) throws IOException {
-    out.writeUTF(id.toString());
+    out.writeLong(id.getMostSignificantBits());
+    out.writeLong(id.getLeastSignificantBits());
     out.writeUTF(userId);
     out.writeUTF(instrumentInstanceId);
     out.writeUTF(instrumentName != null ? instrumentName : "");
@@ -104,7 +105,7 @@ public final class Order implements Externalizable {
 
   @Override
   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-    id = UUID.fromString(in.readUTF());
+    id = new UUID(in.readLong(), in.readLong());
     userId = in.readUTF();
     instrumentInstanceId = in.readUTF();
     String value = in.readUTF();
