@@ -6,11 +6,19 @@ import io.scalecube.storages.common.entity.Order;
 import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import net.openhft.chronicle.map.ChronicleMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.Exceptions;
 
 public class ChronicleMapStorage implements Storage<UUID, Order> {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(ChronicleMapStorage.class);
+
+  private static final AtomicInteger COUNTER = new AtomicInteger();
+
+  private final int id = COUNTER.getAndIncrement();
   private final BenchmarkSettings settings;
 
   private ChronicleMap<UUID, Order> chronicleMap;
@@ -25,7 +33,10 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
     try {
       Runtime.getRuntime().addShutdownHook(new Thread(this::close));
 
-      persistenceFile = new File(settings.find("persistenceFile", "benchmarks/orders.db"));
+      persistenceFile =
+          new File(
+              String.format(
+                  settings.find("persistenceFilePattern", "benchmarks/orders-%s.db"), id));
       persistenceFile.deleteOnExit();
       persistenceFile.getParentFile().mkdirs();
 
@@ -36,14 +47,14 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
 
       chronicleMap =
           ChronicleMap.of(UUID.class, Order.class)
-              .name("chronicleMap")
+              .name("chronicleMap-" + id)
               .entries(entriesCount)
               .maxBloatFactor(50)
               .averageKey(UUID.randomUUID())
               .averageValue(new Order(UUID.randomUUID()))
               .createOrRecoverPersistedTo(persistenceFile, true);
 
-      System.out.println("ChronicleMap created: " + chronicleMap.toIdentityString());
+      LOGGER.info("chronicleMap-{} created: {}", id, chronicleMap.toIdentityString());
     } catch (Exception e) {
       throw Exceptions.propagate(e);
     }

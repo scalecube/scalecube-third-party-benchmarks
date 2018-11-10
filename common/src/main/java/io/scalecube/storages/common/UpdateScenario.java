@@ -32,7 +32,6 @@ public class UpdateScenario {
         .apply(settings)
         .runForSync(
             state -> {
-              Storage<UUID, Order> storage = state.storage();
               BenchmarkTimer timer = state.timer("update");
               int preloadCount = state.preloadCount();
               if (preloadCount <= 0) {
@@ -40,6 +39,7 @@ public class UpdateScenario {
               }
 
               return iteration -> {
+                Storage<UUID, Order> storage = state.storage();
                 UUID id = state.uuid(ThreadLocalRandom.current().nextInt(0, preloadCount));
                 Order order = storage.read(id);
 

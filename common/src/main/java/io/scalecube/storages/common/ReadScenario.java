@@ -33,7 +33,6 @@ public class ReadScenario {
         .apply(settings)
         .runForSync(
             state -> {
-              Storage<UUID, Order> storage = state.storage();
               BenchmarkTimer timer = state.timer("read");
               int preloadCount = state.preloadCount();
 
@@ -43,6 +42,7 @@ public class ReadScenario {
                       : () -> state.uuid(0); // not found case
 
               return iteration -> {
+                Storage<UUID, Order> storage = state.storage();
                 UUID key = uuidSupplier.get();
                 Order order = storage.read(key);
                 BenchmarkTimer.Context readTime = timer.time();
