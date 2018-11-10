@@ -39,8 +39,10 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
               .name("chronicleMap")
               .entries(entriesCount)
               .maxBloatFactor(50)
-              .averageKey(UUID.randomUUID())
+              .constantKeySizeBySample(UUID.randomUUID())
               .averageValue(new Order(UUID.randomUUID()))
+              .putReturnsNull(true)
+              .removeReturnsNull(true)
               .createOrRecoverPersistedTo(persistenceFile, true);
 
       System.out.println("ChronicleMap created: " + chronicleMap.toIdentityString());
