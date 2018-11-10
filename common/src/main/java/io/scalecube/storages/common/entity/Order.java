@@ -69,6 +69,12 @@ public final class Order implements Externalizable {
     return id;
   }
 
+  /**
+   * Creates a new instance of this order with new order status.
+   *
+   * @param status order status
+   * @return an order
+   */
   public Order withNewStatus(OrderStatus status) {
     Order order = clone();
     order.status = status;
