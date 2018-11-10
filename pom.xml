@@ -9,7 +9,7 @@
   <parent>
     <groupId>io.scalecube</groupId>
     <artifactId>scalecube-parent-pom</artifactId>
-    <version>0.0.14</version>
+    <version>0.0.15</version>
   </parent>
   <packaging>pom</packaging>
 
@@ -24,15 +24,18 @@
 
   <properties>
     <scalecube-benchmarks.version>1.2.2</scalecube-benchmarks.version>
+    <reactor.version>3.2.2.RELEASE</reactor.version>
+    <chronicle-map.version>3.16.4</chronicle-map.version>
+    <chronicle-engine.version>1.13.27</chronicle-engine.version>
     <lmdbjava.version>0.6.1</lmdbjava.version>
-    <junit.version>4.12</junit.version>
     <h2-mvstore.version>1.4.197</h2-mvstore.version>
+    <rocksdbjni.version>5.11.3</rocksdbjni.version>
     <agrona.version>0.9.16</agrona.version>
     <jackson.version>2.9.6</jackson.version>
-    <reactor.version>3.2.1.RELEASE</reactor.version>
     <protostuff.version>1.6.0</protostuff.version>
-    <enforcer.skip>true</enforcer.skip>
 
+    <junit.version>4.12</junit.version>
+    <enforcer.skip>true</enforcer.skip>
   </properties>
 
   <modules>
@@ -48,19 +51,19 @@
       <dependency>
         <groupId>net.openhft</groupId>
         <artifactId>chronicle-map</artifactId>
-        <version>3.16.0</version>
+        <version>${chronicle-map.version}</version>
       </dependency>
       <dependency>
         <groupId>net.openhft</groupId>
         <artifactId>chronicle-engine</artifactId>
-        <version>1.13.27</version>
+        <version>${chronicle-engine.version}</version>
       </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.rocksdb/rocksdbjni -->
       <dependency>
         <groupId>org.rocksdb</groupId>
         <artifactId>rocksdbjni</artifactId>
-        <version>5.11.3</version>
+        <version>${rocksdbjni.version}</version>
       </dependency>
 
       <!-- Agrona buffers -->
@@ -136,64 +139,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <!--<build>-->
-    <!--<plugins>-->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-shade-plugin</artifactId>-->
-        <!--<version>3.1.0</version>-->
-        <!--<executions>-->
-          <!--<execution>-->
-            <!--<id>default</id>-->
-            <!--<phase>package</phase>-->
-            <!--<goals>-->
-              <!--<goal>shade</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-              <!--<transformers>-->
-                <!--<transformer-->
-                    <!--implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
-                  <!--<mainClass>${mainClass}</mainClass>-->
-                <!--</transformer>-->
-                <!--<transformer-->
-                    <!--implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>-->
-              <!--</transformers>-->
-              <!--<outputDirectory>${project.build.directory}</outputDirectory>-->
-              <!--<createDependencyReducedPom>false</createDependencyReducedPom>-->
-              <!--<shadedArtifactAttached>true</shadedArtifactAttached>-->
-            <!--</configuration>-->
-          <!--</execution>-->
-        <!--</executions>-->
-      <!--</plugin>-->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-compiler-plugin</artifactId>-->
-        <!--<version>3.7.0</version>-->
-        <!--<configuration>-->
-          <!--<source>1.8</source>-->
-          <!--<target>1.8</target>-->
-          <!--<optimize>true</optimize>-->
-          <!--<compilerArgs>-->
-            <!--<arg>-proc:none</arg>-->
-            <!--<arg>-Xlint:unchecked</arg>-->
-          <!--</compilerArgs>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-release-plugin</artifactId>-->
-        <!--<version>${maven-release-plugin.version}</version>-->
-        <!--<configuration>-->
-          <!--<autoVersionSubmodules>true</autoVersionSubmodules>-->
-          <!--<useReleaseProfile>false</useReleaseProfile>-->
-          <!--<releaseProfiles>release</releaseProfiles>-->
-          <!--<tagNameFormat>v@{project.version}</tagNameFormat>-->
-          <!--<goals>deploy</goals>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
-    <!--</plugins>-->
-  <!--</build>-->
 
   <repositories>
     <repository>

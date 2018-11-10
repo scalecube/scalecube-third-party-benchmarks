@@ -69,6 +69,12 @@ public final class Order implements Externalizable {
     return id;
   }
 
+  /**
+   * Creates a new instance of this order with new order status.
+   *
+   * @param status order status
+   * @return an order
+   */
   public Order withNewStatus(OrderStatus status) {
     Order order = clone();
     order.status = status;
@@ -77,7 +83,8 @@ public final class Order implements Externalizable {
 
   @Override
   public void writeExternal(ObjectOutput out) throws IOException {
-    out.writeUTF(id.toString());
+    out.writeLong(id.getMostSignificantBits());
+    out.writeLong(id.getLeastSignificantBits());
     out.writeUTF(userId);
     out.writeUTF(instrumentInstanceId);
     out.writeUTF(instrumentName != null ? instrumentName : "");
@@ -98,7 +105,7 @@ public final class Order implements Externalizable {
 
   @Override
   public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-    id = UUID.fromString(in.readUTF());
+    id = new UUID(in.readLong(), in.readLong());
     userId = in.readUTF();
     instrumentInstanceId = in.readUTF();
     String value = in.readUTF();

@@ -1,7 +1,6 @@
 package io.scalecube.storages.common.entity;
 
 public enum OrderStatus {
-
   Accepted(1) {
     @Override
     public boolean transitionAllowed(OrderStatus from) {
@@ -61,13 +60,24 @@ public enum OrderStatus {
    * @throws IllegalArgumentException – if this enum type has no constant with the specified code
    */
   public static OrderStatus valueOf(byte code) {
-    for (OrderStatus status : values()) {
-      if (status.code == code) {
-        return status;
-      }
+    switch (code) {
+      case 1:
+        return Accepted;
+      case 2:
+        return Validated;
+      case 3:
+        return New;
+      case 4:
+        return PartiallyFilled;
+      case 5:
+        return Filled;
+      case 6:
+        return Cancelled;
+      case 7:
+        return Rejected;
+      default:
+        throw new IllegalArgumentException("Unknown order status code: " + code);
     }
-
-    throw new IllegalArgumentException("Unknown order status code: " + code);
   }
 
   public abstract boolean transitionAllowed(OrderStatus from);

@@ -18,12 +18,13 @@ public enum OrderSide {
    * @throws IllegalArgumentException – if this enum type has no constant with the specified code
    */
   public static OrderSide valueOf(byte code) {
-    for (OrderSide side : values()) {
-      if (side.code == code) {
-        return side;
-      }
+    switch (code) {
+      case 1:
+        return Buy;
+      case 2:
+        return Sell;
+      default:
+        throw new IllegalArgumentException("Unknown order side code: " + code);
     }
-
-    throw new IllegalArgumentException("Unknown order side code: " + code);
   }
 }
