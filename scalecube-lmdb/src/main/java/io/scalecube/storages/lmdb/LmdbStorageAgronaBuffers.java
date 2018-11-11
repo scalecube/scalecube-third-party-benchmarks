@@ -5,6 +5,7 @@ import static org.lmdbjava.DirectBufferProxy.PROXY_DB;
 import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.entity.Order;
+import io.scalecube.storages.common.entity.UuidUtil;
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.UUID;
@@ -53,7 +54,7 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
   public void write(UUID key, Order val) {
     try (Txn<DirectBuffer> txn = env.txnWrite()) {
       try (Cursor<DirectBuffer> cursor = db.openCursor(txn)) {
-        byte[] keyBytes = key.toString().getBytes();
+        byte[] keyBytes = UuidUtil.toBytes(key);
         MutableDirectBuffer keyBuffer = new UnsafeBuffer(
             ByteBuffer.allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);
@@ -76,7 +77,7 @@ public class LmdbStorageAgronaBuffers implements Storage<UUID, Order> {
   public Order read(UUID key) {
     try (Txn<DirectBuffer> txn = env.txnRead()) {
       try {
-        byte[] keyBytes = key.toString().getBytes();
+        byte[] keyBytes = UuidUtil.toBytes(key);
         MutableDirectBuffer keyBuffer = new UnsafeBuffer(
             ByteBuffer.allocateDirect(keyBytes.length));
         keyBuffer.putBytes(0, keyBytes);

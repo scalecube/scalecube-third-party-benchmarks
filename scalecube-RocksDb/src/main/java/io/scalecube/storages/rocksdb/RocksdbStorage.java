@@ -3,6 +3,7 @@ package io.scalecube.storages.rocksdb;
 import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.storages.common.Storage;
 import io.scalecube.storages.common.entity.Order;
+import io.scalecube.storages.common.entity.UuidUtil;
 import java.util.UUID;
 import org.rocksdb.Options;
 import org.rocksdb.RocksDB;
@@ -39,7 +40,7 @@ public class RocksdbStorage implements Storage<UUID, Order> {
   @Override
   public void write(UUID key, Order order) {
     try {
-      rocksDb.put(key.toString().getBytes(), order.toBytes());
+      rocksDb.put(UuidUtil.toBytes(key), order.toBytes());
     } catch (Exception e) {
       throw Exceptions.propagate(e);
     }
@@ -48,7 +49,7 @@ public class RocksdbStorage implements Storage<UUID, Order> {
   @Override
   public Order read(UUID key) {
     try {
-      byte[] valBytes = rocksDb.get(key.toString().getBytes());
+      byte[] valBytes = rocksDb.get(UuidUtil.toBytes(key));
       return valBytes != null ? Order.fromBytes(valBytes) : null;
     } catch (Exception e) {
       throw Exceptions.propagate(e);
