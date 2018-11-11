@@ -63,7 +63,7 @@ public class StorageState extends BenchmarkState<StorageState> {
                 try {
                   storage.write(order.id(), order);
                 } catch (Exception e) {
-                  throw new RuntimeException(e);
+                  e.printStackTrace();
                 }
               })
           .groups()

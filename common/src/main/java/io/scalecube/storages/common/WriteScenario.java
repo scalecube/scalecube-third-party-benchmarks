@@ -3,11 +3,11 @@ package io.scalecube.storages.common;
 import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.benchmarks.metrics.BenchmarkTimer;
 import io.scalecube.storages.common.entity.Order;
-
 import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import reactor.core.Exceptions;
 
 public class WriteScenario {
 
@@ -34,11 +34,16 @@ public class WriteScenario {
               BenchmarkTimer timer = state.timer("write");
 
               return iteration -> {
-                Order order = new Order(UUID.randomUUID());
-                BenchmarkTimer.Context writeTime = timer.time();
-                state.storage().write(order.id(), order);
-                writeTime.stop();
-                return order;
+                try {
+                  Order order = new Order(UUID.randomUUID());
+                  BenchmarkTimer.Context writeTime = timer.time();
+                  state.storage().write(order.id(), order);
+                  writeTime.stop();
+                  return order;
+                } catch (Exception e) {
+                  e.printStackTrace();
+                  throw Exceptions.propagate(e);
+                }
               };
             });
   }

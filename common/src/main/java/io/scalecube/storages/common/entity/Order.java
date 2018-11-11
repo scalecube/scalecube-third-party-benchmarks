@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
+import net.openhft.chronicle.bytes.Bytes;
+import net.openhft.chronicle.hash.serialization.BytesReader;
+import net.openhft.chronicle.hash.serialization.BytesWriter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class Order implements Externalizable {
 
@@ -211,5 +216,43 @@ public final class Order implements Externalizable {
     order.fills = this.fills;
     order.status = this.status;
     return order;
+  }
+
+  public static class Marshaller implements BytesReader<Order>, BytesWriter<Order> {
+
+    @NotNull
+    @Override
+    public Order read(Bytes in, @Nullable Order using) {
+      Order that = new Order();
+      that.id = new UUID(in.readLong(), in.readLong());
+      that.     userId = in.readUtf8();
+      that.instrumentInstanceId = in.readUtf8();
+      String value = in.readUtf8();
+      that.      instrumentName = value == null || value.isEmpty() ? null : value;
+      that.orderType = OrderType.valueOf(in.readByte());
+      that.side = OrderSide.valueOf(in.readByte());
+      that.quantity = BigDecimalUtil.readObject(in);
+      that.remainingQuantity = BigDecimalUtil.readObject(in);
+      that.price = BigDecimalUtil.readObject(in);
+      that.userIpAddress = in.readUtf8();
+      that.status = OrderStatus.valueOf(in.readByte());
+      return that;
+    }
+
+    @Override
+    public void write(Bytes out, @NotNull Order order) {
+      out.writeLong(order.id.getMostSignificantBits());
+      out.writeLong(order.id.getLeastSignificantBits());
+      out.writeUtf8(order.userId);
+      out.writeUtf8(order.instrumentInstanceId);
+      out.writeUtf8(order.instrumentName != null ? order.instrumentName : "");
+      out.writeByte((byte) order.orderType.code);
+      out.writeByte((byte) order.side.code);
+      BigDecimalUtil.writeObject(order.quantity, out);
+      BigDecimalUtil.writeObject(order.remainingQuantity, out);
+      BigDecimalUtil.writeObject(order.price, out);
+      out.writeUtf8(order.userIpAddress);
+      out.writeByte((byte) order.status.code);
+    }
   }
 }

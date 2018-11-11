@@ -7,7 +7,12 @@ import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import net.openhft.chronicle.bytes.Bytes;
+import net.openhft.chronicle.hash.serialization.BytesReader;
+import net.openhft.chronicle.hash.serialization.BytesWriter;
 import net.openhft.chronicle.map.ChronicleMap;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.Exceptions;
@@ -23,6 +28,20 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
 
   private ChronicleMap<UUID, Order> chronicleMap;
   private File persistenceFile;
+
+  static class UUIDMarchaler implements BytesReader<UUID>, BytesWriter<UUID> {
+
+    @NotNull
+    @Override
+    public UUID read(Bytes in, @Nullable UUID using) {
+      return new UUID(in.readLong(), in.readLong());
+    }
+
+    @Override
+    public void write(Bytes out, @NotNull UUID uuid) {
+      out.writeLong(uuid.getMostSignificantBits()).writeLong(uuid.getLeastSignificantBits());
+    }
+  }
 
   public ChronicleMapStorage(BenchmarkSettings settings) {
     this.settings = settings;
@@ -54,6 +73,8 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
               .averageValue(new Order(UUID.randomUUID()))
               .putReturnsNull(true)
               .removeReturnsNull(true)
+              .keyMarshaller(new UUIDMarchaler())
+              .valueMarshaller(new Order.Marshaller())
               .createOrRecoverPersistedTo(persistenceFile, true);
 
       LOGGER.info("chronicleMap-{} created: {}", id, chronicleMap.toIdentityString());

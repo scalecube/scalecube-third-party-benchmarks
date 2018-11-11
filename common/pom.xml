@@ -16,6 +16,10 @@
       <groupId>io.scalecube</groupId>
       <artifactId>scalecube-benchmarks-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>net.openhft</groupId>
+      <artifactId>chronicle-map</artifactId>
+    </dependency>
   </dependencies>
 
 </project>
