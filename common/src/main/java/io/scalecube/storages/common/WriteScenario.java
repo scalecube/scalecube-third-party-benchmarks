@@ -31,13 +31,12 @@ public class WriteScenario {
         .apply(settings)
         .runForSync(
             state -> {
-              Storage<UUID, Order> storage = state.storage();
               BenchmarkTimer timer = state.timer("write");
 
               return iteration -> {
                 Order order = new Order(UUID.randomUUID());
                 BenchmarkTimer.Context writeTime = timer.time();
-                storage.write(order.id(), order);
+                state.storage().write(order.id(), order);
                 writeTime.stop();
                 return order;
               };

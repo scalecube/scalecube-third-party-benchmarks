@@ -13,7 +13,7 @@ public class StorageState extends BenchmarkState<StorageState> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(StorageState.class);
 
-  private final Function<BenchmarkSettings, Storage<UUID, Order>> supplier;
+  protected final Function<BenchmarkSettings, Storage<UUID, Order>> supplier;
 
   private Storage<UUID, Order> storage;
   private int preloadCount;
