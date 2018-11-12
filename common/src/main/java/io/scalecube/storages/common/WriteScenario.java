@@ -41,6 +41,7 @@ public class WriteScenario {
                   writeTime.stop();
                   return order;
                 } catch (Exception e) {
+                  // todo change it in benchmarks-api
                   e.printStackTrace();
                   throw Exceptions.propagate(e);
                 }

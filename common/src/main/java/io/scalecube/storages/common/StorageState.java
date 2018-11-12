@@ -64,6 +64,7 @@ public class StorageState extends BenchmarkState<StorageState> {
                   storage.write(order.id(), order);
                 } catch (Exception e) {
                   e.printStackTrace();
+                  // todo change it in benchmarks-api
                 }
               })
           .groups()
