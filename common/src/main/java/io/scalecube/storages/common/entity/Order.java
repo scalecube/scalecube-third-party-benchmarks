@@ -220,22 +220,36 @@ public final class Order implements Externalizable {
 
   public static class Marshaller implements BytesReader<Order>, BytesWriter<Order> {
 
+    private final Fill.Marshaller fillMarshaller;
+
+    public Marshaller(Fill.Marshaller fillMarshaller) {
+      this.fillMarshaller = fillMarshaller;
+    }
+
     @NotNull
     @Override
     public Order read(Bytes in, @Nullable Order using) {
       Order that = new Order();
       that.id = new UUID(in.readLong(), in.readLong());
-      that.     userId = in.readUtf8();
+      that.userId = in.readUtf8();
       that.instrumentInstanceId = in.readUtf8();
       String value = in.readUtf8();
-      that.      instrumentName = value == null || value.isEmpty() ? null : value;
+      that.instrumentName = value == null || value.isEmpty() ? null : value;
       that.orderType = OrderType.valueOf(in.readByte());
       that.side = OrderSide.valueOf(in.readByte());
       that.quantity = BigDecimalUtil.readObject(in);
       that.remainingQuantity = BigDecimalUtil.readObject(in);
       that.price = BigDecimalUtil.readObject(in);
+      that.clientTimestamp = LocalDateTimeUtil.readObject(in);
+      that.serverTimestamp = LocalDateTimeUtil.readObject(in);
       that.userIpAddress = in.readUtf8();
       that.status = OrderStatus.valueOf(in.readByte());
+      int fillsLength = in.readInt();
+      List<Fill> fills = new ArrayList<>(fillsLength);
+      for (int i = 0; i < fillsLength; i++) {
+        fills.add(fillMarshaller.read(in, null));
+      }
+      that.fills = fills;
       return that;
     }
 
@@ -251,8 +265,14 @@ public final class Order implements Externalizable {
       BigDecimalUtil.writeObject(order.quantity, out);
       BigDecimalUtil.writeObject(order.remainingQuantity, out);
       BigDecimalUtil.writeObject(order.price, out);
+      LocalDateTimeUtil.writeObject(order.clientTimestamp, out);
+      LocalDateTimeUtil.writeObject(order.serverTimestamp, out);
       out.writeUtf8(order.userIpAddress);
       out.writeByte((byte) order.status.code);
+      out.writeInt(order.fills.size());
+      for (Fill fill : order.fills) {
+        fillMarshaller.write(out, fill);
+      }
     }
   }
 }

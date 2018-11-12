@@ -28,6 +28,12 @@ public final class BigDecimalUtil {
     }
   }
 
+  /**
+   * Writes BigDecimal to the given output.
+   *
+   * @param value value
+   * @param out output
+   */
   public static void writeObject(BigDecimal value, Bytes out) {
     BigInteger bigInteger = value.unscaledValue();
     out.writeInt(value.scale());
@@ -60,6 +66,12 @@ public final class BigDecimalUtil {
     return new BigDecimal(new BigInteger(bytes), scale);
   }
 
+  /**
+   * Reads BigDecimal from the given input.
+   *
+   * @param in input
+   * @return BigDecimal value
+   */
   public static BigDecimal readObject(Bytes in) {
     int scale = in.readInt();
     int bytesLength = in.readInt();
