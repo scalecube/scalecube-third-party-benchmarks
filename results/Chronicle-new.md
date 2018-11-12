@@ -38,40 +38,40 @@
 
 **## WriteScenario 1 thread**
 <pre>
-             count = 8177674
-         mean rate = 108442.11 calls/second
-     1-minute rate = 81205.09 calls/second
-     5-minute rate = 24261.92 calls/second
-    15-minute rate = 8702.05 calls/second
-               min = 3576.00 nanoseconds
-               max = 26634.00 nanoseconds
-              mean = 5710.93 nanoseconds
-            stddev = 1869.07 nanoseconds
-            median = 5339.00 nanoseconds
-              75% <= 5845.00 nanoseconds
-              95% <= 8522.00 nanoseconds
-              98% <= 10257.00 nanoseconds
-              99% <= 14876.00 nanoseconds
-            99.9% <= 26634.00 nanoseconds
+             count = 10588732
+         mean rate = 165450.04 calls/second
+     1-minute rate = 176818.78 calls/second
+     5-minute rate = 180304.48 calls/second
+    15-minute rate = 180944.11 calls/second
+               min = 1813.00 nanoseconds
+               max = 29942.00 nanoseconds
+              mean = 3347.06 nanoseconds
+            stddev = 1602.05 nanoseconds
+            median = 3093.00 nanoseconds
+              75% <= 3558.00 nanoseconds
+              95% <= 5855.00 nanoseconds
+              98% <= 6731.00 nanoseconds
+              99% <= 8146.00 nanoseconds
+            99.9% <= 16702.00 nanoseconds
 </pre>
 
 **## WriteScenario 4 thread**
 <pre>
-             count = 12863172
-         mean rate = 173681.89 calls/second
-     1-minute rate = 128997.72 calls/second
-     5-minute rate = 37452.54 calls/second
-    15-minute rate = 13353.97 calls/second
-               min = 4623.00 nanoseconds
-               max = 49757.00 nanoseconds
-              mean = 10648.41 nanoseconds
-            stddev = 3676.91 nanoseconds
-            median = 10258.00 nanoseconds
-              75% <= 11528.00 nanoseconds
-              95% <= 15829.00 nanoseconds
-              98% <= 19712.00 nanoseconds
-              99% <= 23724.00 nanoseconds
-            99.9% <= 49426.00 nanoseconds
+             count = 13974756
+         mean rate = 285198.03 calls/second
+     1-minute rate = 270797.92 calls/second
+     5-minute rate = 262891.37 calls/second
+    15-minute rate = 260889.23 calls/second
+               min = 2138.00 nanoseconds
+               max = 35859.00 nanoseconds
+              mean = 6392.76 nanoseconds
+            stddev = 1982.35 nanoseconds
+            median = 6260.00 nanoseconds
+              75% <= 7117.00 nanoseconds
+              95% <= 9669.00 nanoseconds
+              98% <= 10848.00 nanoseconds
+              99% <= 12757.00 nanoseconds
+            99.9% <= 19886.00 nanoseconds
 </pre>
 
 **## ReadAndWriteScenario 1 thread**

@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.math.BigDecimal;
+import net.openhft.chronicle.bytes.Bytes;
+import net.openhft.chronicle.hash.serialization.BytesReader;
+import net.openhft.chronicle.hash.serialization.BytesWriter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Fill implements Externalizable {
 
@@ -62,5 +67,25 @@ public class Fill implements Externalizable {
     sb.append(", timestamp=").append(timestamp);
     sb.append('}');
     return sb.toString();
+  }
+
+  public static class Marshaller implements BytesReader<Fill>, BytesWriter<Fill> {
+
+    @NotNull
+    @Override
+    public Fill read(Bytes in, @Nullable Fill using) {
+      Fill fill = new Fill();
+      fill.price = BigDecimalUtil.readObject(in);
+      fill.quantity = BigDecimalUtil.readObject(in);
+      fill.timestamp = in.readLong();
+      return fill;
+    }
+
+    @Override
+    public void write(Bytes out, @NotNull Fill fill) {
+      BigDecimalUtil.writeObject(fill.price, out);
+      BigDecimalUtil.writeObject(fill.quantity, out);
+      out.writeLong(fill.timestamp);
+    }
   }
 }

@@ -54,6 +54,8 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
               .averageValue(new Order(UUID.randomUUID()))
               .putReturnsNull(true)
               .removeReturnsNull(true)
+              .keyMarshaller(new UuidKeyMarshaller())
+              .valueMarshaller(new OrderValueMarshaller())
               .createOrRecoverPersistedTo(persistenceFile, true);
 
       LOGGER.info("chronicleMap-{} created: {}", id, chronicleMap.toIdentityString());
