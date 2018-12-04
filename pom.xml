@@ -35,6 +35,7 @@
 
   <modules>
     <module>chronicle-map-benchmarks</module>
+    <module>kafka-benchmarks</module>
     <module>lmdb-benchmarks</module>
     <module>rocksdb-benchmarks</module>
     <module>storage-benchmarks-common</module>
