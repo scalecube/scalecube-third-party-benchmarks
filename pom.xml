@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <artifactId>scalecube-performance-storage-parent</artifactId>
-  <version>2.0.1-SNAPSHOT</version>
+  <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.scalecube</groupId>
     <artifactId>scalecube-parent-pom</artifactId>
     <version>0.0.15</version>
   </parent>
+
+  <artifactId>scalecube-third-party-benchmarks-parent</artifactId>
+  <version>2.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>ScaleCube</name>
+  <name>ScaleCube Third-Party Benchmarks</name>
+  <description>Benchmarks of third-party tools</description>
+
   <scm>
-    <url>https://github.com/scalecube/storage-benchmarks</url>
-    <connection>scm:git:git@github.com:scalecube/storage-benchmarks.git</connection>
-    <developerConnection>scm:git:git@github.com:scalecube/storage-benchmarks.git
+    <url>https://github.com/scalecube/scalecube-third-party-benchmarks</url>
+    <connection>scm:git:git@github.com:scalecube/scalecube-third-party-benchmarks.git</connection>
+    <developerConnection>scm:git:git@github.com:scalecube/scalecube-third-party-benchmarks.git
     </developerConnection>
     <tag>HEAD</tag>
   </scm>
@@ -25,120 +29,29 @@
   <properties>
     <scalecube-benchmarks.version>1.2.2</scalecube-benchmarks.version>
     <reactor.version>3.2.2.RELEASE</reactor.version>
-    <chronicle-map.version>3.16.4</chronicle-map.version>
-    <chronicle-engine.version>1.13.27</chronicle-engine.version>
-    <lmdbjava.version>0.6.1</lmdbjava.version>
-    <h2-mvstore.version>1.4.197</h2-mvstore.version>
-    <rocksdbjni.version>5.11.3</rocksdbjni.version>
-    <agrona.version>0.9.16</agrona.version>
-    <jackson.version>2.9.6</jackson.version>
-    <protostuff.version>1.6.0</protostuff.version>
 
-    <junit.version>4.12</junit.version>
     <enforcer.skip>true</enforcer.skip>
   </properties>
 
   <modules>
-    <module>ChronicleMap3X.X.X</module>
-    <module>common</module>
-    <module>scalecube-lmdb</module>
-    <module>scalecube-RocksDb</module>
+    <module>chronicle-map-benchmarks</module>
+    <module>lmdb-benchmarks</module>
+    <module>rocksdb-benchmarks</module>
+    <module>storage-benchmarks-common</module>
   </modules>
 
-  <dependencyManagement>
-    <!-- Chronicle -->
-    <dependencies>
-      <dependency>
-        <groupId>net.openhft</groupId>
-        <artifactId>chronicle-map</artifactId>
-        <version>${chronicle-map.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.openhft</groupId>
-        <artifactId>chronicle-engine</artifactId>
-        <version>${chronicle-engine.version}</version>
-      </dependency>
-
-      <!-- https://mvnrepository.com/artifact/org.rocksdb/rocksdbjni -->
-      <dependency>
-        <groupId>org.rocksdb</groupId>
-        <artifactId>rocksdbjni</artifactId>
-        <version>${rocksdbjni.version}</version>
-      </dependency>
-
-      <!-- Agrona buffers -->
-      <dependency>
-        <groupId>org.agrona</groupId>
-        <artifactId>agrona</artifactId>
-        <version>${agrona.version}</version>
-      </dependency>
-
-      <!-- LMDB -->
-      <dependency>
-        <groupId>org.lmdbjava</groupId>
-        <artifactId>lmdbjava</artifactId>
-        <version>${lmdbjava.version}</version>
-      </dependency>
-
-      <!-- MV store (h2) -->
-      <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2-mvstore</artifactId>
-        <version>${h2-mvstore.version}</version>
-      </dependency>
-
-      <!-- Other -->
-      <dependency>
-        <groupId>io.projectreactor</groupId>
-        <artifactId>reactor-core</artifactId>
-        <version>${reactor.version}</version>
-      </dependency>
-
-      <!-- Protostuff/Protobuf -->
-      <dependency>
-        <groupId>io.protostuff</groupId>
-        <artifactId>protostuff-api</artifactId>
-        <version>${protostuff.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.protostuff</groupId>
-        <artifactId>protostuff-runtime</artifactId>
-        <version>${protostuff.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.protostuff</groupId>
-        <artifactId>protostuff-core</artifactId>
-        <version>${protostuff.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.protostuff</groupId>
-        <artifactId>protostuff-runtime-registry</artifactId>
-        <version>${protostuff.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.protostuff</groupId>
-        <artifactId>protostuff-collectionschema</artifactId>
-        <version>${protostuff.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>io.scalecube</groupId>
-        <artifactId>scalecube-benchmarks-api</artifactId>
-        <version>${scalecube-benchmarks.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.scalecube</groupId>
-        <artifactId>scalecube-benchmarks-log4j2</artifactId>
-        <version>${scalecube-benchmarks.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-benchmarks-api</artifactId>
+      <version>${scalecube-benchmarks.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.scalecube</groupId>
+      <artifactId>scalecube-benchmarks-log4j2</artifactId>
+      <version>${scalecube-benchmarks.version}</version>
+    </dependency>
+  </dependencies>
 
   <repositories>
     <repository>
