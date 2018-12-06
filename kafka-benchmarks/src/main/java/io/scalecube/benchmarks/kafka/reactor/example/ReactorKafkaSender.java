@@ -1,4 +1,4 @@
-package io.scalecube.benchmarks.kafka.reactor;
+package io.scalecube.benchmarks.kafka.reactor.example;
 
 import static io.scalecube.benchmarks.kafka.ConfigConstants.SERVERS;
 import static io.scalecube.benchmarks.kafka.ConfigConstants.TOPIC;
