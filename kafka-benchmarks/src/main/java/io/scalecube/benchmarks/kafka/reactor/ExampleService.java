@@ -31,6 +31,11 @@ public class ExampleService {
   private static final String TOPIC_SEND = "benchmark-topic-b";
   private static final int MAX_IN_FLIGHT = 256;
 
+  /**
+   * Run the service.
+   *
+   * @param args program args
+   */
   public static void main(String[] args) throws InterruptedException {
     KafkaSender<Integer, Message> kafkaSender = kafkaSender();
 
@@ -79,14 +84,14 @@ public class ExampleService {
   }
 
   private static Flux<SenderRecord<Integer, Message, Integer>> records() {
-    return Mono.fromCallable(
-            () -> {
-              Message message = new Message(System.currentTimeMillis());
-              int correlationMetadata = message.hashCode();
-              ProducerRecord<Integer, Message> record =
-                  new ProducerRecord<>(TOPIC_SEND, correlationMetadata, message);
-              return SenderRecord.create(record, correlationMetadata);
-            })
-        .repeat();
+    return Mono.fromCallable(ExampleService::generateSenderRecord).repeat();
+  }
+
+  private static SenderRecord<Integer, Message, Integer> generateSenderRecord() {
+    Message message = new Message(System.currentTimeMillis());
+    int correlationMetadata = message.hashCode();
+    ProducerRecord<Integer, Message> record =
+        new ProducerRecord<>(TOPIC_SEND, correlationMetadata, message);
+    return SenderRecord.create(record, correlationMetadata);
   }
 }

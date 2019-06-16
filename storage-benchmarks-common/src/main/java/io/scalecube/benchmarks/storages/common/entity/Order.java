@@ -40,14 +40,14 @@ public final class Order implements Externalizable {
   public Order() {}
 
   /**
-   * Generates a random order by the given order identifier.
+   * Generates a random order by the given order id.
    *
-   * @param orderId order identifier
+   * @param id id
    */
-  public Order(UUID orderId) {
-    id = orderId;
-    userId = UUID.randomUUID().toString();
-    instrumentInstanceId = UUID.randomUUID().toString();
+  public Order(long id) {
+    this.id = new UUID(Integer.MAX_VALUE, id);
+    userId = new UUID(0, id).toString();
+    instrumentInstanceId = new UUID(1, id).toString();
     instrumentName = "BTC";
     quantity = BigDecimal.valueOf(RANDOM.nextLong());
     remainingQuantity = BigDecimal.valueOf(RANDOM.nextLong());

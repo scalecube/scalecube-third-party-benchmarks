@@ -4,7 +4,6 @@ import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.benchmarks.metrics.BenchmarkTimer;
 import io.scalecube.benchmarks.storages.common.entity.Order;
 import java.time.Duration;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import reactor.core.Exceptions;
@@ -35,7 +34,7 @@ public class WriteScenario {
 
               return iteration -> {
                 try {
-                  Order order = new Order(UUID.randomUUID());
+                  Order order = new Order(iteration);
                   BenchmarkTimer.Context writeTime = timer.time();
                   state.storage().write(order.id(), order);
                   writeTime.stop();
