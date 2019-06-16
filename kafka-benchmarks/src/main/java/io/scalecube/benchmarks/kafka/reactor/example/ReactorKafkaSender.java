@@ -23,6 +23,11 @@ public class ReactorKafkaSender {
 
   private static final int MESSAGE_COUNT = 10_000_000;
 
+  /**
+   * Run the sender.
+   *
+   * @param args program args
+   */
   public static void main(String[] args) throws InterruptedException {
     Map<String, Object> producerProps = new HashMap<>();
     producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, SERVERS);

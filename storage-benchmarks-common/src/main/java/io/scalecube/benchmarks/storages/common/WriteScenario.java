@@ -4,7 +4,6 @@ import io.scalecube.benchmarks.BenchmarkSettings;
 import io.scalecube.benchmarks.metrics.BenchmarkTimer;
 import io.scalecube.benchmarks.storages.common.entity.Order;
 import java.time.Duration;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import reactor.core.Exceptions;
