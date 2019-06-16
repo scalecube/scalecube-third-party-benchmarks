@@ -59,7 +59,7 @@ public class StorageState extends BenchmarkState<StorageState> {
           .runOn(scheduler())
           .doOnNext(
               i -> {
-                Order order = new Order(uuid(i));
+                Order order = new Order(i);
                 try {
                   storage.write(order.id(), order);
                 } catch (Exception e) {

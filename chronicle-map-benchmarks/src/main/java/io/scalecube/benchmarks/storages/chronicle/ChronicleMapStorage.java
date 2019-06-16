@@ -53,7 +53,7 @@ public class ChronicleMapStorage implements Storage<UUID, Order> {
               .entries(entriesCount)
               .maxBloatFactor(50)
               .constantKeySizeBySample(UUID.randomUUID())
-              .averageValue(new Order(UUID.randomUUID()))
+              .averageValue(new Order(0))
               .putReturnsNull(true)
               .removeReturnsNull(true)
               .keyMarshaller(new UuidMarshaller())

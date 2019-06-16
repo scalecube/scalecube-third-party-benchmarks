@@ -35,7 +35,7 @@ public class WriteScenario {
 
               return iteration -> {
                 try {
-                  Order order = new Order(UUID.randomUUID());
+                  Order order = new Order(iteration);
                   BenchmarkTimer.Context writeTime = timer.time();
                   state.storage().write(order.id(), order);
                   writeTime.stop();
